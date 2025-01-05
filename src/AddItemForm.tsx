@@ -33,6 +33,7 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
   return (
     <div>
       <TextField
+        size="small"
         variant="outlined"
         label="Type Value"
         value={newTaskTitle}

@@ -2,8 +2,11 @@ import React from "react";
 import { FilterValuesType } from "./App";
 import { AddItemForm } from "./AddItemForm";
 import { EditableSpan } from "./EditableSpan";
-import { Button, Checkbox, IconButton } from "@mui/material";
+import { Box, Button, Checkbox, IconButton, Typography } from "@mui/material";
 import { Delete } from "@mui/icons-material";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import { filterButtonsContainerSx, getListItemSx } from "./Todolist.styles";
 
 export type taskPropsType = {
   id: string;
@@ -49,14 +52,24 @@ export const Todolist = (props: todolistPropsType) => {
 
   return (
     <div>
-      <h3>
+      {/* <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <h3>
+          <EditableSpan title={props.title} onchange={onChangeTodolistTitle} />
+        </h3>
+        <IconButton aria-label="delete" onClick={removeTodolist}>
+          <Delete />
+        </IconButton>
+      </div> */}
+
+      <Typography align="center" variant="h6">
         <EditableSpan title={props.title} onchange={onChangeTodolistTitle} />
         <IconButton aria-label="delete" onClick={removeTodolist}>
           <Delete />
         </IconButton>
-      </h3>
+      </Typography>
+
       <AddItemForm addItem={addTask} />
-      <ul>
+      <List>
         {props.task.map((t) => {
           const onChangeStatus = (e: React.ChangeEvent<HTMLInputElement>) => {
             props.ChangeStatus(t.id, e.currentTarget.checked, props.id);
@@ -68,14 +81,11 @@ export const Todolist = (props: todolistPropsType) => {
             props.ChangeTaskTitle(t.id, newValueTitle, props.id);
           };
           return (
-            <li key={t.id} className={t.isDone ? "is-done" : ""}>
-              {/* <input
-                type="checkbox"
-                checked={t.isDone}
-                onChange={onChangeStatus}
-              /> */}
-              <Checkbox onChange={onChangeStatus} checked={t.isDone} />
-              <EditableSpan title={t.title} onchange={onChangeTitle} />
+            <ListItem key={t.id} sx={getListItemSx(t.isDone)}>
+              <Box>
+                <Checkbox onChange={onChangeStatus} checked={t.isDone} />
+                <EditableSpan title={t.title} onchange={onChangeTitle} />
+              </Box>
               <IconButton
                 aria-label="delete"
                 color="secondary"
@@ -83,11 +93,11 @@ export const Todolist = (props: todolistPropsType) => {
               >
                 <Delete />
               </IconButton>
-            </li>
+            </ListItem>
           );
         })}
-      </ul>
-      <div>
+      </List>
+      <Box sx={filterButtonsContainerSx}>
         <Button
           variant={props.filter === "All" ? "contained" : "text"}
           onClick={onAllClick}
@@ -108,7 +118,7 @@ export const Todolist = (props: todolistPropsType) => {
         >
           Completed
         </Button>
-      </div>
+      </Box>
     </div>
   );
 };

@@ -14,6 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Menu } from "@mui/icons-material";
+import { MenuButton } from "./MenuButton";
 
 export type FilterValuesType = "All" | "Completed" | "Active";
 
@@ -124,7 +125,7 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <>
       <AppBar position="static">
         <Toolbar>
           <IconButton
@@ -139,11 +140,15 @@ function App() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             News
           </Typography>
-          <Button color="inherit">Login</Button>
+          <div>
+            <MenuButton>Login</MenuButton>
+            <MenuButton>Logout</MenuButton>
+            <MenuButton background={"red"}>Faq</MenuButton>
+          </div>
         </Toolbar>
       </AppBar>
       <Container fixed>
-        <Grid2 container style={{ padding: "20px" }}>
+        <Grid2 container style={{ padding: "20px 0px" }}>
           <AddItemForm addItem={addTodolist} />
         </Grid2>
         <Grid2 container spacing={5}>
@@ -184,7 +189,7 @@ function App() {
           })}
         </Grid2>
       </Container>
-    </div>
+    </>
   );
 }
 
