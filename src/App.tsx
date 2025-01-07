@@ -1,11 +1,10 @@
 import React from "react";
 import "./App.css";
-import { taskPropsType, Todolist } from "./Todolist";
+import { Todolist } from "./Todolist";
 import { v1 } from "uuid";
 import { AddItemForm } from "./AddItemForm";
 import {
   AppBar,
-  Button,
   Container,
   Grid2,
   IconButton,
@@ -18,7 +17,7 @@ import { MenuButton } from "./MenuButton";
 
 export type FilterValuesType = "All" | "Completed" | "Active";
 
-type TodolistType = {
+export type TodolistType = {
   id: string;
   title: string;
   filter: FilterValuesType;
