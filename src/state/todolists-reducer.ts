@@ -46,7 +46,7 @@ export const todolistsReducer = (
         title: action.payload.title,
         filter: "All",
       };
-      return [...state, newTodolist];
+      return [newTodolist, ...state];
     }
 
     case "CHANGE-TODOLIST-TITLE": {
@@ -91,8 +91,8 @@ export const changeTodolistTitleAC = (
 };
 
 export const changeTodolistFilterAC = (
-  id: string,
-  filter: FilterValuesType
+  filter: FilterValuesType,
+  id: string
 ): ChangeTodolistFilterActionType => {
   return { type: "CHANGE-TODOLIST-FILTER", id: id, filter: filter };
 };
