@@ -1,5 +1,5 @@
 import { v1 } from "uuid";
-import { TaskStateType, TodolistType } from "../App";
+import { TaskStateType } from "../App";
 import {
   AddTodolistActionType,
   RemoveTodolistActionType,
@@ -36,8 +36,10 @@ type ActionsType =
   | AddTodolistActionType
   | RemoveTodolistActionType;
 
+const initialState: TaskStateType = {};
+
 export const tasksReducer = (
-  state: TaskStateType,
+  state: TaskStateType = initialState,
   action: ActionsType
 ): TaskStateType => {
   switch (action.type) {
@@ -108,7 +110,7 @@ export const tasksReducer = (
     }
 
     default:
-      throw new Error("I don't understand this acton type ");
+      return state;
   }
 };
 
