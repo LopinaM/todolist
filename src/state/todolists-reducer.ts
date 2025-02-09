@@ -3,24 +3,19 @@ import { FilterValuesType, TodolistType } from "../App";
 
 export type RemoveTodolistActionType = {
   type: "REMOVE-TODOLIST";
-  id: string;
+  payload: { todolistId: string };
 };
 export type AddTodolistActionType = {
   type: "ADD-TODOLIST";
-  payload: {
-    title: string;
-    todolistId: string;
-  };
+  payload: { title: string; todolistId: string };
 };
 type ChangeTodolistTitleActionType = {
   type: "CHANGE-TODOLIST-TITLE";
-  id: string;
-  title: string;
+  payload: { todolistId: string; title: string };
 };
 type ChangeTodolistFilterActionType = {
   type: "CHANGE-TODOLIST-FILTER";
-  id: string;
-  filter: FilterValuesType;
+  payload: { todolistId: string; filter: FilterValuesType };
 };
 
 type ActionsType =
@@ -40,7 +35,7 @@ export const todolistsReducer = (
 ): TodolistType[] => {
   switch (action.type) {
     case "REMOVE-TODOLIST": {
-      return state.filter((tl) => tl.id !== action.id);
+      return state.filter((tl) => tl.id !== action.payload.todolistId);
     }
     // case "ADD-TODOLIST":
     //   return [...state, { id: v1(), title: action.title, filter: "All" }];
@@ -55,17 +50,17 @@ export const todolistsReducer = (
     }
 
     case "CHANGE-TODOLIST-TITLE": {
-      const todolist = state.find((td) => td.id === action.id);
+      const todolist = state.find((td) => td.id === action.payload.todolistId);
       if (todolist) {
-        todolist.title = action.title;
+        todolist.title = action.payload.title;
       }
       return [...state];
     }
 
     case "CHANGE-TODOLIST-FILTER": {
-      const todolist = state.find((td) => td.id === action.id);
+      const todolist = state.find((td) => td.id === action.payload.todolistId);
       if (todolist) {
-        todolist.filter = action.filter;
+        todolist.filter = action.payload.filter;
       }
       return [...state];
     }
@@ -78,7 +73,7 @@ export const todolistsReducer = (
 export const removeTodolistAC = (
   todolistId: string
 ): RemoveTodolistActionType => {
-  return { type: "REMOVE-TODOLIST", id: todolistId };
+  return { type: "REMOVE-TODOLIST", payload: { todolistId: todolistId } };
 };
 
 export const addTodolistAC = (title: string) => {
@@ -92,12 +87,18 @@ export const changeTodolistTitleAC = (
   id: string,
   title: string
 ): ChangeTodolistTitleActionType => {
-  return { type: "CHANGE-TODOLIST-TITLE", id: id, title: title };
+  return {
+    type: "CHANGE-TODOLIST-TITLE",
+    payload: { todolistId: id, title: title },
+  };
 };
 
 export const changeTodolistFilterAC = (
   filter: FilterValuesType,
   id: string
 ): ChangeTodolistFilterActionType => {
-  return { type: "CHANGE-TODOLIST-FILTER", id: id, filter: filter };
+  return {
+    type: "CHANGE-TODOLIST-FILTER",
+    payload: { todolistId: id, filter: filter },
+  };
 };

@@ -6,15 +6,20 @@ import "./index.css";
 import AppWithRedux from "./AppWıthRedux";
 import { Provider } from "react-redux";
 import { store } from "./state/store";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { Theme } from "./Theme";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <AppWithRedux />
-    </Provider>
+    <ThemeProvider theme={Theme}>
+      <CssBaseline />
+      <Provider store={store}>
+        <AppWithRedux />
+      </Provider>
+    </ThemeProvider>
   </React.StrictMode>
 );
 

@@ -4,10 +4,12 @@ import { taskPropsType, Todolist } from "./Todolist";
 import { AddItemForm } from "./AddItemForm";
 import {
   AppBar,
+  Button,
   Container,
   Grid2,
   IconButton,
   Paper,
+  Switch,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -42,6 +44,7 @@ export type TaskStateType = {
 };
 
 function AppWithRedux() {
+  const [mode, setMode] = React.useState(false);
   const dispatch = useDispatch();
   const todolists = useSelector<RootState, TodolistType[]>(
     (state) => state.todolists
@@ -123,17 +126,24 @@ function AppWithRedux() {
             News
           </Typography>
           <div>
-            <MenuButton>Login</MenuButton>
+            <Button variant="outlined" color="inherit">
+              Login
+            </Button>
             <MenuButton>Logout</MenuButton>
             <MenuButton background={"red"}>Faq</MenuButton>
           </div>
+          <Switch
+            onChange={(prev) => {
+              setMode(!prev);
+            }}
+          />
         </Toolbar>
       </AppBar>
       <Container fixed>
         <Grid2 container style={{ padding: "20px 0px" }}>
           <AddItemForm addItem={addTodolist} />
         </Grid2>
-        <Grid2 container spacing={5}>
+        <Grid2 container spacing={4}>
           {todolists.map((td) => {
             let taskForTodolist = tasksObj[td.id];
 
