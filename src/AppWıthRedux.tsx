@@ -43,7 +43,7 @@ export type TaskStateType = {
   [key: string]: Array<taskPropsType>;
 };
 
-function AppWithRedux() {
+const AppWithRedux = () => {
   const [mode, setMode] = React.useState(false);
   const dispatch = useDispatch();
   const todolists = useSelector<RootState, TodolistType[]>(
@@ -68,15 +68,15 @@ function AppWithRedux() {
   );
 
   const ChangeTaskTitle = React.useCallback(
-    (taskid: string, newValueTitle: string, todolistId: string) => {
-      dispatch(changeTaskTitleAC(taskid, newValueTitle, todolistId));
+    (taskId: string, newValueTitle: string, todolistId: string) => {
+      dispatch(changeTaskTitleAC({ taskId, title: newValueTitle, todolistId }));
     },
     [dispatch]
   );
 
   const ChangeStatus = React.useCallback(
-    (taskid: string, isDone: boolean, todolistId: string) => {
-      dispatch(changeTaskStatusAC(taskid, isDone, todolistId));
+    (taskId: string, isDone: boolean, todolistId: string) => {
+      dispatch(changeTaskStatusAC({ taskId, isDone, todolistId }));
     },
     [dispatch]
   );
@@ -89,8 +89,8 @@ function AppWithRedux() {
   );
 
   const ChangeFilter = React.useCallback(
-    (value: FilterValuesType, todolistId: string) => {
-      dispatch(changeTodolistFilterAC(value, todolistId));
+    (filter: FilterValuesType, todolistId: string) => {
+      dispatch(changeTodolistFilterAC({ filter, todolistId }));
     },
     [dispatch]
   );
@@ -104,7 +104,7 @@ function AppWithRedux() {
 
   const onChangeTodolistTitle = React.useCallback(
     (todolistId: string, newValueTitle: string) => {
-      dispatch(changeTodolistTitleAC(todolistId, newValueTitle));
+      dispatch(changeTodolistTitleAC({ todolistId, title: newValueTitle }));
     },
     [dispatch]
   );
@@ -183,6 +183,6 @@ function AppWithRedux() {
       </Container>
     </>
   );
-}
+};
 
 export default AppWithRedux;

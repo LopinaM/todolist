@@ -41,7 +41,7 @@ export type TaskStateType = {
   [key: string]: Array<taskPropsType>;
 };
 
-function App() {
+const App = () => {
   let todolistId1 = v1();
   let todolistId2 = v1();
 
@@ -66,39 +66,41 @@ function App() {
     ],
   });
 
-  function removeTask(id: string, todolistId: string) {
+  const removeTask = (id: string, todolistId: string) => {
     const action = removeTaskAC(id, todolistId);
-    dispatchTasksReducer(action);
-  }
-
-  function addTask(title: string, todolistId: string) {
-    const action = addTaskAC(title, todolistId);
-    dispatchTasksReducer(action);
-  }
-
-  const ChangeTaskTitle = (
-    taskid: string,
-    newValueTitle: string,
-    todolistId: string
-  ) => {
-    const action = changeTaskTitleAC(taskid, newValueTitle, todolistId);
     dispatchTasksReducer(action);
   };
 
-  function ChangeStatus(taskid: string, isDone: boolean, todolistId: string) {
-    const action = changeTaskStatusAC(taskid, isDone, todolistId);
+  const addTask = (title: string, todolistId: string) => {
+    const action = addTaskAC(title, todolistId);
     dispatchTasksReducer(action);
-  }
+  };
 
-  function removeTodolist(todolistId: string) {
+  const ChangeTaskTitle = (
+    taskId: string,
+    newValueTitle: string,
+    todolistId: string
+  ) => {
+    dispatchTasksReducer(
+      changeTaskTitleAC({
+        taskId,
+        title: newValueTitle,
+        todolistId,
+      })
+    );
+  };
+
+  const ChangeStatus = (taskId: string, isDone: boolean, todolistId: string) =>
+    dispatchTasksReducer(changeTaskStatusAC({ taskId, isDone, todolistId }));
+
+  const removeTodolist = (todolistId: string) => {
     const action = removeTodolistAC(todolistId);
     dispatchTodolistReducer(action);
     dispatchTasksReducer(action);
-  }
+  };
 
-  function ChangeFilter(value: FilterValuesType, todolistId: string) {
-    dispatchTodolistReducer(changeTodolistFilterAC(value, todolistId));
-  }
+  const ChangeFilter = (filter: FilterValuesType, todolistId: string) =>
+    dispatchTodolistReducer(changeTodolistFilterAC({ filter, todolistId }));
 
   const addTodolist = (title: string) => {
     const action = addTodolistAC(title);
@@ -107,7 +109,9 @@ function App() {
   };
 
   const onChangeTodolistTitle = (todolistId: string, newValueTitle: string) => {
-    dispatchTodolistReducer(changeTodolistTitleAC(todolistId, newValueTitle));
+    dispatchTodolistReducer(
+      changeTodolistTitleAC({ todolistId, title: newValueTitle })
+    );
   };
 
   return (
@@ -177,6 +181,6 @@ function App() {
       </Container>
     </>
   );
-}
+};
 
 export default App;
