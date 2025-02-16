@@ -1,6 +1,15 @@
 import { createAction, createReducer, nanoid } from "@reduxjs/toolkit";
 import { addTodolistAC, removeTodolistAC } from "./todolists-reducer";
-import { TaskStateType } from "../App";
+
+export type taskPropsType = {
+  id: string;
+  title: string;
+  isDone: boolean;
+};
+
+export type TaskStateType = {
+  [key: string]: Array<taskPropsType>;
+};
 
 export const removeTaskAC = createAction<{
   taskId: string;

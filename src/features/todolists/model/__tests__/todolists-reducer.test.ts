@@ -1,11 +1,12 @@
-import { FilterValuesType, TodolistType } from "../App";
 import {
   addTodolistAC,
   changeTodolistFilterAC,
   changeTodolistTitleAC,
+  FilterValuesType,
   removeTodolistAC,
   todolistsReducer,
-} from "./todolists-reducer";
+  TodolistType,
+} from "../todolists-reducer";
 import { nanoid } from "@reduxjs/toolkit";
 
 let todolistId1 = nanoid();
