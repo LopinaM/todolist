@@ -1,4 +1,3 @@
-import { v1 } from "uuid";
 import { FilterValuesType, TodolistType } from "../App";
 import {
   addTodolistAC,
@@ -7,9 +6,10 @@ import {
   removeTodolistAC,
   todolistsReducer,
 } from "./todolists-reducer";
+import { nanoid } from "@reduxjs/toolkit";
 
-let todolistId1 = v1();
-let todolistId2 = v1();
+let todolistId1 = nanoid();
+let todolistId2 = nanoid();
 
 let newTodolistTitle = "New Todolist";
 let newFilter: FilterValuesType = "Completed";
@@ -24,7 +24,10 @@ beforeEach(() => {
 });
 
 test("correct todolist should be removed", () => {
-  const endState = todolistsReducer(startState, removeTodolistAC(todolistId1));
+  const endState = todolistsReducer(
+    startState,
+    removeTodolistAC({ todolistId: todolistId1 })
+  );
 
   expect(endState.length).toBe(1);
   expect(endState[0].id).toBe(todolistId2);
@@ -37,8 +40,8 @@ test("correct todolist should be added", () => {
   );
 
   expect(endState.length).toBe(3);
-  expect(endState[0].title).toBe(newTodolistTitle);
-  expect(endState[0].filter).toBe("All");
+  expect(endState[2].title).toBe(newTodolistTitle);
+  expect(endState[2].filter).toBe("All");
 });
 
 test("correct todolist should change its name", () => {

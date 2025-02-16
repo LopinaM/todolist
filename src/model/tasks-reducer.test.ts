@@ -1,5 +1,4 @@
-import { v1 } from "uuid";
-import { FilterValuesType, TaskStateType, TodolistType } from "../App";
+import { TaskStateType } from "../App";
 import {
   tasksReducer,
   addTaskAC,
@@ -7,7 +6,7 @@ import {
   changeTaskTitleAC,
   removeTaskAC,
 } from "./tasks-reducer";
-import { addTodolistAC, removeTodolistAC } from "./todolists-reducer";
+import { removeTodolistAC } from "./todolists-reducer";
 
 let startState: TaskStateType = {};
 
@@ -27,7 +26,10 @@ beforeEach(() => {
 });
 
 test("correct task should be removed", () => {
-  const endState = tasksReducer(startState, removeTaskAC("2", "todolistId2"));
+  const endState = tasksReducer(
+    startState,
+    removeTaskAC({ taskId: "2", todolistId: "todolistId2" })
+  );
 
   expect(endState["todolistId1"].length).toBe(4);
   expect(endState["todolistId2"].length).toBe(1);
@@ -90,7 +92,7 @@ test("correct status of task should be changed", () => {
 // });
 
 test("property with todolistId should be deleted", () => {
-  const action = removeTodolistAC("todolistId2");
+  const action = removeTodolistAC({ todolistId: "todolistId2" });
 
   const endState = tasksReducer(startState, action);
 
