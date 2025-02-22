@@ -8,10 +8,9 @@ import {
 } from "@mui/material";
 import { Menu } from "@mui/icons-material";
 import { MenuButton } from "../MenuButton/MenuButton";
-import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { changeThemeModeAC } from "../../../app/app-reducer";
-import { useAppSelector } from "../../hooks/useAppSelector";
-import { selectThemeMode } from "../../../app/app-selectors";
+import { useAppDispatch, useAppSelector } from "src/common/hooks";
+import { changeThemeModeAC } from "src/app/app-reducer";
+import { selectThemeMode } from "src/app/app-selectors";
 
 export const Header = () => {
   const themeMode = useAppSelector(selectThemeMode);

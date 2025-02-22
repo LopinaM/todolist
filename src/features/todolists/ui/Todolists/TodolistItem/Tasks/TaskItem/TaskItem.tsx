@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Checkbox, IconButton, ListItem } from "@mui/material";
-import { EditableSpan } from "src/common/components/EditableSpan/EditableSpan";
+import { EditableSpan } from "src/common/components";
 import { Delete } from "@mui/icons-material";
 import { getListItemSx } from "./TaskItem.styles";
 import {

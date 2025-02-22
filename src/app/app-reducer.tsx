@@ -1,6 +1,5 @@
 import { createAction, createReducer } from "@reduxjs/toolkit";
-import { ThemeMode } from "src/common/theme/theme";
-// import { ThemeMode } from "@/common/theme/theme";
+import { ThemeMode } from "src/common/theme";
 
 const initialState = {
   themeMode: "light" as ThemeMode,

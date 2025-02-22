@@ -5,27 +5,15 @@ import {
   useState,
 } from "react";
 import Checkbox from "@mui/material/Checkbox";
-import { AddItemForm } from "src/common/components/AddItemForm/AddItemForm";
-import { EditableSpan } from "src/common/components/EditableSpan/EditableSpan";
+import { AddItemForm, EditableSpan } from "src/common/components";
 import axios from "axios";
+import type { BaseTodoResponse } from "src/common/types";
 
 export type Todolist = {
   id: string;
   addedDate: string;
   order: number;
   title: string;
-};
-
-export type FieldError = {
-  error: string;
-  field: string;
-};
-
-type BaseTodoResponse<T = {}> = {
-  data: T;
-  fieldsErrors: FieldError[];
-  messages: string[];
-  resultCode: number;
 };
 
 const token = "fa57361e-c156-410e-bfa5-ffd3358a7501";

@@ -1,8 +1,8 @@
 import React from "react";
-import { useAppDispatch } from "src/common/hooks/useAppDispatch";
+import { useAppDispatch } from "src/common/hooks";
 import { addTodolistAC } from "src/features/todolists/model/todolists-reducer";
 import { Container, Grid2 } from "@mui/material";
-import { AddItemForm } from "src/common/components/AddItemForm/AddItemForm";
+import { AddItemForm } from "src/common/components";
 import { Todolists } from "src/features/todolists/ui/Todolists/Todolits";
 
 export const Main = () => {
