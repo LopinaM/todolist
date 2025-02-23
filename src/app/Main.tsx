@@ -12,7 +12,7 @@ export const Main = () => {
     (title: string) => {
       dispatch(addTodolistAC(title));
     },
-    [dispatch]
+    [dispatch],
   );
 
   return (

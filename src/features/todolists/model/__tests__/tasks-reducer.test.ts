@@ -26,10 +26,7 @@ beforeEach(() => {
 });
 
 test("correct task should be removed", () => {
-  const endState = tasksReducer(
-    startState,
-    removeTaskAC({ taskId: "2", todolistId: "todolistId2" })
-  );
+  const endState = tasksReducer(startState, removeTaskAC({ taskId: "2", todolistId: "todolistId2" }));
 
   expect(endState["todolistId1"].length).toBe(4);
   expect(endState["todolistId2"].length).toBe(1);
@@ -38,10 +35,7 @@ test("correct task should be removed", () => {
 });
 
 test("correct task should be added", () => {
-  const endState = tasksReducer(
-    startState,
-    addTaskAC("newTaskTitle", "todolistId2")
-  );
+  const endState = tasksReducer(startState, addTaskAC("newTaskTitle", "todolistId2"));
 
   expect(endState["todolistId1"].length).toBe(4);
   expect(endState["todolistId2"].length).toBe(3);
@@ -57,7 +51,7 @@ test("correct task should change its name", () => {
       taskId: "2",
       title: "newTaskTitle",
       todolistId: "todolistId1",
-    })
+    }),
   );
 
   expect(endState["todolistId1"][1].title).toBe("newTaskTitle");
@@ -70,7 +64,7 @@ test("correct status of task should be changed", () => {
       taskId: "1",
       isDone: false,
       todolistId: "todolistId1",
-    })
+    }),
   );
 
   expect(endState["todolistId1"][0].isDone).toBe(false);

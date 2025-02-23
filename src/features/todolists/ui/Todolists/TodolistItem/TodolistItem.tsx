@@ -18,7 +18,7 @@ export const TodolistItem = React.memo(({ todolist }: todolistPropsType) => {
     (title: string) => {
       dispatch(addTaskAC(title, todolist.id));
     },
-    [dispatch, todolist.id]
+    [dispatch, todolist.id],
   );
 
   return (

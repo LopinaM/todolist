@@ -16,12 +16,9 @@ export const removeTaskAC = createAction<{
   todolistId: string;
 }>("tasks/removeTask");
 
-export const addTaskAC = createAction(
-  "tasks/addTask",
-  (title: string, todolistId: string) => {
-    return { payload: { title, todolistId, taskId: nanoid() } };
-  }
-);
+export const addTaskAC = createAction("tasks/addTask", (title: string, todolistId: string) => {
+  return { payload: { title, todolistId, taskId: nanoid() } };
+});
 
 export const changeTaskTitleAC = createAction<{
   taskId: string;
@@ -41,9 +38,7 @@ export const tasksReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(removeTaskAC, (state, action) => {
       const tasks = state[action.payload.todolistId];
-      const index = tasks.findIndex(
-        (task) => task.id === action.payload.taskId
-      );
+      const index = tasks.findIndex((task) => task.id === action.payload.taskId);
       if (index !== -1) {
         tasks.splice(index, 1);
       }
@@ -57,17 +52,13 @@ export const tasksReducer = createReducer(initialState, (builder) => {
       state[action.payload.todolistId].unshift(newTask);
     })
     .addCase(changeTaskStatusAC, (state, action) => {
-      const task = state[action.payload.todolistId].find(
-        (task) => task.id === action.payload.taskId
-      );
+      const task = state[action.payload.todolistId].find((task) => task.id === action.payload.taskId);
       if (task) {
         task.isDone = action.payload.isDone;
       }
     })
     .addCase(changeTaskTitleAC, (state, action) => {
-      const task = state[action.payload.todolistId].find(
-        (task) => task.id === action.payload.taskId
-      );
+      const task = state[action.payload.todolistId].find((task) => task.id === action.payload.taskId);
       if (task) {
         task.title = action.payload.title;
       }

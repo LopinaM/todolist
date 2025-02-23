@@ -30,10 +30,10 @@ export const TaskItem = React.memo(({ task, todolistId }: taskType) => {
           taskId: task.id,
           isDone: e.currentTarget.checked,
           todolistId: todolistId,
-        })
+        }),
       );
     },
-    [dispatch, task.id, todolistId]
+    [dispatch, task.id, todolistId],
   );
 
   const onChangeTitle = React.useCallback(
@@ -43,10 +43,10 @@ export const TaskItem = React.memo(({ task, todolistId }: taskType) => {
           taskId: task.id,
           title: newValueTitle,
           todolistId: todolistId,
-        })
+        }),
       );
     },
-    [dispatch, task.id, todolistId]
+    [dispatch, task.id, todolistId],
   );
 
   return (

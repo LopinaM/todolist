@@ -2,11 +2,7 @@ import React from "react";
 import { Box, Button } from "@mui/material";
 import { filterButtonsContainerSx } from "./FilterButtons.styles";
 import { useAppDispatch } from "src/common/hooks/useAppDispatch";
-import {
-  changeTodolistFilterAC,
-  FilterValuesType,
-  TodolistType,
-} from "src/features/todolists/model/todolists-reducer";
+import { changeTodolistFilterAC, FilterValuesType, TodolistType } from "src/features/todolists/model/todolists-reducer";
 
 type propsType = {
   todolist: TodolistType;
@@ -21,18 +17,15 @@ export const FilterButtons = React.memo(({ todolist }: propsType) => {
         changeTodolistFilterAC({
           filter: filter,
           todolistId: todolist.id,
-        })
+        }),
       );
     },
-    [dispatch, todolist.id]
+    [dispatch, todolist.id],
   );
 
   return (
     <Box sx={filterButtonsContainerSx}>
-      <Button
-        variant={todolist.filter === "All" ? "contained" : "text"}
-        onClick={() => changeFilter("All")}
-      >
+      <Button variant={todolist.filter === "All" ? "contained" : "text"} onClick={() => changeFilter("All")}>
         All
       </Button>
       <Button

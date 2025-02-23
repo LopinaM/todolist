@@ -8,15 +8,10 @@ export type TodolistType = {
   filter: FilterValuesType;
 };
 
-export const removeTodolistAC = createAction<{ todolistId: string }>(
-  "todolists/removeTodolist"
-);
-export const addTodolistAC = createAction(
-  "todolists/addTodolist",
-  (title: string) => {
-    return { payload: { title, todolistId: nanoid() } };
-  }
-);
+export const removeTodolistAC = createAction<{ todolistId: string }>("todolists/removeTodolist");
+export const addTodolistAC = createAction("todolists/addTodolist", (title: string) => {
+  return { payload: { title, todolistId: nanoid() } };
+});
 
 export const changeTodolistTitleAC = createAction<{
   todolistId: string;
@@ -33,9 +28,7 @@ const initialState: TodolistType[] = [];
 export const todolistsReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(removeTodolistAC, (state, action) => {
-      const index = state.findIndex(
-        (todolist) => todolist.id === action.payload.todolistId
-      );
+      const index = state.findIndex((todolist) => todolist.id === action.payload.todolistId);
       index !== -1 && state.splice(index, 1);
     })
     .addCase(addTodolistAC, (state, action) => {
@@ -46,17 +39,13 @@ export const todolistsReducer = createReducer(initialState, (builder) => {
       });
     })
     .addCase(changeTodolistTitleAC, (state, action) => {
-      const index = state.findIndex(
-        (todolist) => todolist.id === action.payload.todolistId
-      );
+      const index = state.findIndex((todolist) => todolist.id === action.payload.todolistId);
       if (index !== -1) {
         state[index].title = action.payload.title;
       }
     })
     .addCase(changeTodolistFilterAC, (state, action) => {
-      const todolist = state.findIndex(
-        (todolist) => todolist.id === action.payload.todolistId
-      );
+      const todolist = state.findIndex((todolist) => todolist.id === action.payload.todolistId);
       if (todolist !== -1) {
         state[todolist].filter = action.payload.filter;
       }

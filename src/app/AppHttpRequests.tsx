@@ -1,9 +1,4 @@
-import {
-  type ChangeEvent,
-  type CSSProperties,
-  useEffect,
-  useState,
-} from "react";
+import { type ChangeEvent, type CSSProperties, useEffect, useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import { AddItemForm, EditableSpan } from "src/common/components";
 import { Todolist } from "src/features/todolists/api/todolistsApi.types";
@@ -32,11 +27,7 @@ export const AppHttpRequests = () => {
 
   const changeTodolistTitle = (id: string, title: string) => {
     todolistsApi.changeTodolistTitle(id, title).then(() => {
-      setTodolists(
-        todolists.map((todolist) =>
-          todolist.id === id ? { ...todolist, title: title } : todolist
-        )
-      );
+      setTodolists(todolists.map((todolist) => (todolist.id === id ? { ...todolist, title: title } : todolist)));
     });
   };
 
@@ -54,26 +45,15 @@ export const AppHttpRequests = () => {
       {todolists.map((todolist) => (
         <div key={todolist.id} style={container}>
           <div>
-            <EditableSpan
-              title={todolist.title}
-              onchange={(title) => changeTodolistTitle(todolist.id, title)}
-            />
+            <EditableSpan title={todolist.title} onchange={(title) => changeTodolistTitle(todolist.id, title)} />
             <button onClick={() => deleteTodolist(todolist.id)}>x</button>
           </div>
           <AddItemForm addItem={(title) => createTask(todolist.id, title)} />
           {tasks[todolist.id]?.map((task: any) => (
             <div key={task.id}>
-              <Checkbox
-                checked={task.isDone}
-                onChange={(e) => changeTaskStatus(e, task)}
-              />
-              <EditableSpan
-                title={task.title}
-                onchange={(title) => changeTaskTitle(task, title)}
-              />
-              <button onClick={() => deleteTask(todolist.id, task.id)}>
-                x
-              </button>
+              <Checkbox checked={task.isDone} onChange={(e) => changeTaskStatus(e, task)} />
+              <EditableSpan title={task.title} onchange={(title) => changeTaskTitle(task, title)} />
+              <button onClick={() => deleteTask(todolist.id, task.id)}>x</button>
             </div>
           ))}
         </div>
