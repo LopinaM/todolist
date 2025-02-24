@@ -7,9 +7,7 @@ export const todolistsApi = {
     return instance.get<Todolist[]>("/todo-lists");
   },
   createTodolist(title: string) {
-    return instance.post<BaseTodoResponse<{ item: Todolist }>>("/todo-lists", {
-      title,
-    });
+    return instance.post<BaseTodoResponse<{ item: Todolist }>>("/todo-lists", { title });
   },
   deleteTodolist(id: string) {
     return instance.delete<BaseTodoResponse>(`/todo-lists/${id}`);
