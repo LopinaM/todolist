@@ -1,7 +1,7 @@
 import React from "react";
 import { useAppDispatch } from "src/common/hooks/useAppDispatch";
-import { addTaskAC } from "src/features/todolists/model/tasks-reducer";
-import { TodolistType } from "src/features/todolists/model/todolists-reducer";
+import { addTaskAC } from "src/features/todolists/model/tasks-slice";
+import { TodolistType } from "src/features/todolists/model/todolists-slice";
 import { TodolistTitle } from "./TodolistTitle/TodolistTitle";
 import { AddItemForm } from "src/common/components/AddItemForm/AddItemForm";
 import { Tasks } from "./Tasks/Tasks";

@@ -3,12 +3,7 @@ import { Box, Checkbox, IconButton, ListItem } from "@mui/material";
 import { EditableSpan } from "src/common/components";
 import { Delete } from "@mui/icons-material";
 import { getListItemSx } from "./TaskItem.styles";
-import {
-  changeTaskStatusAC,
-  changeTaskTitleAC,
-  removeTaskAC,
-  taskPropsType,
-} from "src/features/todolists/model/tasks-reducer";
+import { changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, taskPropsType } from "src/features/todolists/model/tasks-slice";
 import { useAppDispatch } from "src/common/hooks/useAppDispatch";
 
 type taskType = {

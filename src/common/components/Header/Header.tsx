@@ -2,8 +2,7 @@ import { AppBar, Button, IconButton, Switch, Toolbar, Typography } from "@mui/ma
 import { Menu } from "@mui/icons-material";
 import { MenuButton } from "../MenuButton/MenuButton";
 import { useAppDispatch, useAppSelector } from "src/common/hooks";
-import { changeThemeModeAC } from "src/app/app-reducer";
-import { selectThemeMode } from "src/app/app-selectors";
+import { changeThemeModeAC, selectThemeMode } from "src/app/app-clice";
 
 export const Header = () => {
   const themeMode = useAppSelector(selectThemeMode);

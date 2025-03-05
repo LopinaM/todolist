@@ -6,7 +6,7 @@ import {
   removeTodolistAC,
   todolistsReducer,
   TodolistType,
-} from "../todolists-reducer";
+} from "../todolists-slice";
 import { nanoid } from "@reduxjs/toolkit";
 
 let todolistId1 = nanoid();
@@ -40,10 +40,7 @@ test("correct todolist should be added", () => {
 });
 
 test("correct todolist should change its name", () => {
-  const endState = todolistsReducer(
-    startState,
-    changeTodolistTitleAC({ todolistId: todolistId2, title: newTodolistTitle }),
-  );
+  const endState = todolistsReducer(startState, changeTodolistTitleAC({ todolistId: todolistId2, title: newTodolistTitle }));
 
   expect(endState[0].title).toBe("What to learn");
   expect(endState[1].title).toBe(newTodolistTitle);
