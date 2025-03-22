@@ -3,7 +3,7 @@ import { Box, Checkbox, IconButton, ListItem } from "@mui/material";
 import { EditableSpan } from "src/common/components";
 import { Delete } from "@mui/icons-material";
 import { getListItemSx } from "./TaskItem.styles";
-import { changeTaskStatus, changeTaskTitle, deleteTask } from "src/features/todolists/model/tasks-slice";
+import { deleteTask, updateTask } from "src/features/todolists/model/tasks-slice";
 import { useAppDispatch } from "src/common/hooks/useAppDispatch";
 import { Task } from "src/features/todolists/api/tasksApi.types";
 import { TaskStatus } from "src/common/enums";
@@ -22,26 +22,19 @@ export const TaskItem = React.memo(({ task, todolistId }: taskType) => {
 
   const onChangeStatus = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      dispatch(
-        changeTaskStatus({
-          taskId: task.id,
-          status: e.currentTarget.checked ? TaskStatus.Completed : TaskStatus.New,
-          todolistId: todolistId,
-        }),
-      );
+      const status = e.currentTarget.checked ? TaskStatus.Completed : TaskStatus.New;
+      const newTask = { ...task, status };
+
+      dispatch(updateTask(newTask));
     },
     [dispatch, task.id, todolistId],
   );
 
   const onChangeTitle = React.useCallback(
     (newValueTitle: string) => {
-      dispatch(
-        changeTaskTitle({
-          taskId: task.id,
-          title: newValueTitle,
-          todolistId: todolistId,
-        }),
-      );
+      const newTask = { ...task, title: newValueTitle };
+
+      dispatch(updateTask(newTask));
     },
     [dispatch, task.id, todolistId],
   );

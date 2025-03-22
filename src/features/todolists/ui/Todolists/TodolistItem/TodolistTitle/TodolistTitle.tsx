@@ -2,7 +2,7 @@ import React from "react";
 import { EditableSpan } from "../../../../../../common/components/EditableSpan/EditableSpan";
 import { IconButton, Typography } from "@mui/material";
 import { Delete } from "@mui/icons-material";
-import { changeTodolistTitleTC, removeTodolistTC, TodolistType } from "src/features/todolists/model/todolists-slice";
+import { changeTodolistTitle, deleteTodolist, TodolistType } from "src/features/todolists/model/todolists-slice";
 import { useAppDispatch } from "../../../../../../common/hooks/useAppDispatch";
 
 type propsType = {
@@ -13,13 +13,13 @@ export const TodolistTitle = React.memo(({ todolist }: propsType) => {
   const dispatch = useAppDispatch();
 
   const removeTodolist = React.useCallback(() => {
-    dispatch(removeTodolistTC(todolist.id));
+    dispatch(deleteTodolist(todolist.id));
   }, [dispatch, todolist.id]);
 
   const onChangeTodolistTitle = React.useCallback(
     (newValueTitle: string) => {
       dispatch(
-        changeTodolistTitleTC({
+        changeTodolistTitle({
           id: todolist.id,
           title: newValueTitle,
         }),

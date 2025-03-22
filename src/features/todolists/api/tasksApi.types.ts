@@ -1,7 +1,5 @@
 import { TaskPriority, TaskStatus } from "src/common/enums";
 
-export type updateTaskType = { todolistId: string; taskId: string; model: UpdateTaskModel };
-
 export type Task = {
   description: string | null;
   title: string;
@@ -9,6 +7,7 @@ export type Task = {
   priority: TaskPriority;
   startDate: string | null;
   deadline: string | null;
+
   id: string;
   todoListId: string;
   order: number;
