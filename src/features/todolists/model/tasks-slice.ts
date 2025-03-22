@@ -1,8 +1,6 @@
-// import { addTodolistTC, removeTodolistTC } from "./todolists-slice";
 import { createAppSlice } from "src/common/utils";
 import { tasksApi } from "../api/tasksApi";
 import { Task, UpdateTaskModel } from "../api/tasksApi.types";
-import { RootState } from "src/app/store";
 import { setAppStatusAC } from "src/app/app-clice";
 import { createTodolist, deleteTodolist } from "./todolists-slice";
 
@@ -64,9 +62,12 @@ export const tasksSlice = createAppSlice({
     deleteTask: create.asyncThunk(
       async (payload: { todolistId: string; taskId: string }, thunkAPI) => {
         try {
+          thunkAPI.dispatch(setAppStatusAC({ status: "loading" }));
           await tasksApi.deleteTask(payload.todolistId, payload.taskId);
+          thunkAPI.dispatch(setAppStatusAC({ status: "succeeded" }));
           return payload;
         } catch (error) {
+          thunkAPI.dispatch(setAppStatusAC({ status: "failed" }));
           return thunkAPI.rejectWithValue(null);
         }
       },

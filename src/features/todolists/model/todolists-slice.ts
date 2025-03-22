@@ -1,4 +1,3 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Todolist } from "../api/todolistsApi.types";
 import { todolistsApi } from "../api/todolistsApi";
 import { createAppSlice } from "src/common/utils";
