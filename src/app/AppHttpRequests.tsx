@@ -71,7 +71,7 @@ export const AppHttpRequests = () => {
       status: e.target.checked ? TaskStatus.Completed : TaskStatus.New,
     };
 
-    tasksApi.updateTask(task.todoListId, task.id, model).then((res) => {
+    tasksApi.updateTask({ todolistId: task.todoListId, taskId: task.id, model }).then((res) => {
       const updatedTask = res.data.data.item;
 
       setTasks({
@@ -92,7 +92,7 @@ export const AppHttpRequests = () => {
       status: task.status,
     };
 
-    tasksApi.updateTask(task.todoListId, task.id, model).then((res) => {
+    tasksApi.updateTask({ todolistId: task.todoListId, taskId: task.id, model }).then((res) => {
       const updatedTask = res.data.data.item;
 
       setTasks({

@@ -1,11 +1,12 @@
-import { AppBar, Button, IconButton, Switch, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Button, IconButton, LinearProgress, Switch, Toolbar, Typography } from "@mui/material";
 import { Menu } from "@mui/icons-material";
 import { MenuButton } from "../MenuButton/MenuButton";
 import { useAppDispatch, useAppSelector } from "src/common/hooks";
-import { changeThemeModeAC, selectThemeMode } from "src/app/app-clice";
+import { changeThemeModeAC, selectStatus, selectThemeMode } from "src/app/app-clice";
 
 export const Header = () => {
   const themeMode = useAppSelector(selectThemeMode);
+  const status = useAppSelector(selectStatus);
   const dispatch = useAppDispatch();
 
   const onChangeThemeMode = () => {
@@ -21,7 +22,7 @@ export const Header = () => {
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           News
         </Typography>
-        <div>
+        <Box sx={{ display: "flex", gap: "10px" }}>
           <Button variant="outlined" color="inherit">
             Login
           </Button>
@@ -31,9 +32,10 @@ export const Header = () => {
           <Button variant="outlined" color="inherit">
             Faq
           </Button>
-        </div>
+        </Box>
         <Switch onChange={onChangeThemeMode} />
       </Toolbar>
+      {status === "loading" && <LinearProgress color="secondary" />}
     </AppBar>
   );
 };

@@ -1,5 +1,5 @@
 import { instance } from "src/common/instance";
-import type { GetTasksResponse, Task, UpdateTaskModel } from "./tasksApi.types";
+import type { GetTasksResponse, Task, updateTaskType } from "./tasksApi.types";
 import { BaseTodoResponse } from "src/common/types";
 
 export const tasksApi = {
@@ -9,7 +9,8 @@ export const tasksApi = {
   createTask(todolistId: string, title: string) {
     return instance.post<BaseTodoResponse<{ item: Task }>>(`/todo-lists/${todolistId}/tasks`, { title });
   },
-  updateTask(todolistId: string, taskId: string, model: UpdateTaskModel) {
+  updateTask(payload: updateTaskType) {
+    const { todolistId, taskId, model } = payload;
     return instance.put<BaseTodoResponse<{ item: Task }>>(`/todo-lists/${todolistId}/tasks/${taskId}`, model);
   },
   deleteTask(todolistId: string, taskId: string) {

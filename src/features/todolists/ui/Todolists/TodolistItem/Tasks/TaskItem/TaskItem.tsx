@@ -3,11 +3,13 @@ import { Box, Checkbox, IconButton, ListItem } from "@mui/material";
 import { EditableSpan } from "src/common/components";
 import { Delete } from "@mui/icons-material";
 import { getListItemSx } from "./TaskItem.styles";
-import { changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, taskPropsType } from "src/features/todolists/model/tasks-slice";
+import { changeTaskStatus, changeTaskTitle, deleteTask } from "src/features/todolists/model/tasks-slice";
 import { useAppDispatch } from "src/common/hooks/useAppDispatch";
+import { Task } from "src/features/todolists/api/tasksApi.types";
+import { TaskStatus } from "src/common/enums";
 
 type taskType = {
-  task: taskPropsType;
+  task: Task;
   todolistId: string;
 };
 
@@ -15,15 +17,15 @@ export const TaskItem = React.memo(({ task, todolistId }: taskType) => {
   const dispatch = useAppDispatch();
 
   const onClick = React.useCallback(() => {
-    dispatch(removeTaskAC({ taskId: task.id, todolistId: todolistId }));
+    dispatch(deleteTask({ taskId: task.id, todolistId: todolistId }));
   }, [dispatch, task.id, todolistId]);
 
   const onChangeStatus = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       dispatch(
-        changeTaskStatusAC({
+        changeTaskStatus({
           taskId: task.id,
-          isDone: e.currentTarget.checked,
+          status: e.currentTarget.checked ? TaskStatus.Completed : TaskStatus.New,
           todolistId: todolistId,
         }),
       );
@@ -34,7 +36,7 @@ export const TaskItem = React.memo(({ task, todolistId }: taskType) => {
   const onChangeTitle = React.useCallback(
     (newValueTitle: string) => {
       dispatch(
-        changeTaskTitleAC({
+        changeTaskTitle({
           taskId: task.id,
           title: newValueTitle,
           todolistId: todolistId,
@@ -44,10 +46,12 @@ export const TaskItem = React.memo(({ task, todolistId }: taskType) => {
     [dispatch, task.id, todolistId],
   );
 
+  const isTaskCompleted = task.status === TaskStatus.Completed;
+
   return (
-    <ListItem sx={getListItemSx(task.isDone)}>
+    <ListItem sx={getListItemSx(isTaskCompleted)}>
       <Box>
-        <Checkbox onChange={onChangeStatus} checked={task.isDone} />
+        <Checkbox onChange={onChangeStatus} checked={isTaskCompleted} />
         <EditableSpan title={task.title} onchange={onChangeTitle} />
       </Box>
       <IconButton aria-label="delete" color="secondary" onClick={onClick}>
