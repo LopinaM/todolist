@@ -5,6 +5,7 @@ import type { RequestStatus } from "src/common/types";
 const initialState = {
   themeMode: "light" as ThemeMode,
   status: "idle" as RequestStatus,
+  error: null as string | null,
 };
 
 export const appSlice = createSlice({
@@ -17,14 +18,18 @@ export const appSlice = createSlice({
     setAppStatusAC: create.reducer<{ status: RequestStatus }>((state, action) => {
       state.status = action.payload.status;
     }),
+    setAppErrorAC: create.reducer<{ error: string | null }>((state, action) => {
+      state.error = action.payload.error;
+    }),
   }),
   selectors: {
     selectThemeMode: (sliceState) => sliceState.themeMode,
     selectStatus: (sliceState) => sliceState.status,
+    selectAppError: (sliceState) => sliceState.error,
   },
 });
 
 export const appReducer = appSlice.reducer;
 
-export const { changeThemeModeAC, setAppStatusAC } = appSlice.actions;
-export const { selectThemeMode, selectStatus } = appSlice.selectors;
+export const { changeThemeModeAC, setAppStatusAC, setAppErrorAC } = appSlice.actions;
+export const { selectThemeMode, selectStatus, selectAppError } = appSlice.selectors;

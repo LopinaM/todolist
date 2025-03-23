@@ -32,7 +32,7 @@ export const TodolistTitle = React.memo(({ todolist }: propsType) => {
     <>
       <Typography align="center" variant="h6">
         <EditableSpan title={todolist.title} onchange={onChangeTodolistTitle} />
-        <IconButton aria-label="delete" onClick={removeTodolist}>
+        <IconButton aria-label="delete" onClick={removeTodolist} disabled={todolist.entityStatus === "loading"}>
           <Delete />
         </IconButton>
       </Typography>

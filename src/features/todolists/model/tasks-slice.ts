@@ -1,8 +1,9 @@
 import { createAppSlice } from "src/common/utils";
 import { tasksApi } from "../api/tasksApi";
 import { Task, UpdateTaskModel } from "../api/tasksApi.types";
-import { setAppStatusAC } from "src/app/app-clice";
+import { setAppErrorAC, setAppStatusAC } from "src/app/app-clice";
 import { createTodolist, deleteTodolist } from "./todolists-slice";
+import { ResultCode } from "src/common/enums";
 
 export type taskPropsType = {
   id: string;
@@ -45,8 +46,18 @@ export const tasksSlice = createAppSlice({
         try {
           thunkAPI.dispatch(setAppStatusAC({ status: "loading" }));
           const res = await tasksApi.createTask(args.todolistId, args.title);
-          thunkAPI.dispatch(setAppStatusAC({ status: "succeeded" }));
-          return { task: res.data.data.item };
+          if (res.data.resultCode === ResultCode.Success) {
+            thunkAPI.dispatch(setAppStatusAC({ status: "succeeded" }));
+            return { task: res.data.data.item };
+          } else {
+            if (res.data.messages.length) {
+              thunkAPI.dispatch(setAppErrorAC({ error: res.data.messages[0] }));
+            } else {
+              thunkAPI.dispatch(setAppErrorAC({ error: "Some error occurred" }));
+            }
+            thunkAPI.dispatch(setAppStatusAC({ status: "failed" }));
+            return thunkAPI.rejectWithValue(null);
+          }
         } catch (error) {
           thunkAPI.dispatch(setAppStatusAC({ status: "failed" }));
           return thunkAPI.rejectWithValue(null);

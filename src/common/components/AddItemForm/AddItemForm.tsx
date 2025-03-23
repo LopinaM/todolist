@@ -4,9 +4,10 @@ import React from "react";
 
 type AddItemFormPropsType = {
   addItem: (title: string) => void;
+  disabled?: boolean;
 };
 
-export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
+export const AddItemForm = React.memo(({ addItem, disabled }: AddItemFormPropsType) => {
   const [newTaskTitle, setNewTaskTitle] = React.useState("");
   const [error, setError] = React.useState<string | null>(null);
 
@@ -25,7 +26,7 @@ export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
 
   const addTask = () => {
     if (newTaskTitle.trim() !== "") {
-      props.addItem(newTaskTitle.trim());
+      addItem(newTaskTitle.trim());
       setNewTaskTitle("");
     } else {
       setError("Field is required");
@@ -43,8 +44,9 @@ export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
         onKeyDown={onKeyDown}
         error={!!error}
         helperText={error}
+        disabled={disabled}
       />
-      <IconButton onClick={addTask} color={"secondary"}>
+      <IconButton onClick={addTask} color={"secondary"} disabled={disabled}>
         <Add />
       </IconButton>
     </div>
