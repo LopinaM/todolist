@@ -1,5 +1,5 @@
 import { Alert, Snackbar } from "@mui/material";
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent } from "react";
 import { selectAppError, setAppErrorAC } from "src/app/app-clice";
 import { useAppDispatch, useAppSelector } from "src/common/hooks";
 

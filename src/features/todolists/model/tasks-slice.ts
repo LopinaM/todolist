@@ -1,4 +1,4 @@
-import { createAppSlice } from "src/common/utils";
+import { createAppSlice, handleServerAppError, handleServerNetworkError } from "src/common/utils";
 import { tasksApi } from "../api/tasksApi";
 import { Task, UpdateTaskModel } from "../api/tasksApi.types";
 import { setAppErrorAC, setAppStatusAC } from "src/app/app-clice";
@@ -50,16 +50,11 @@ export const tasksSlice = createAppSlice({
             thunkAPI.dispatch(setAppStatusAC({ status: "succeeded" }));
             return { task: res.data.data.item };
           } else {
-            if (res.data.messages.length) {
-              thunkAPI.dispatch(setAppErrorAC({ error: res.data.messages[0] }));
-            } else {
-              thunkAPI.dispatch(setAppErrorAC({ error: "Some error occurred" }));
-            }
-            thunkAPI.dispatch(setAppStatusAC({ status: "failed" }));
+            handleServerAppError(res.data, thunkAPI.dispatch);
             return thunkAPI.rejectWithValue(null);
           }
         } catch (error) {
-          thunkAPI.dispatch(setAppStatusAC({ status: "failed" }));
+          handleServerNetworkError(error, thunkAPI.dispatch);
           return thunkAPI.rejectWithValue(null);
         }
       },
@@ -109,10 +104,15 @@ export const tasksSlice = createAppSlice({
         try {
           thunkAPI.dispatch(setAppStatusAC({ status: "loading" }));
           const res = await tasksApi.updateTask({ todolistId: task.todoListId, taskId: task.id, model });
-          thunkAPI.dispatch(setAppStatusAC({ status: "succeeded" }));
-          return { task: res.data.data.item };
+          if (res.data.resultCode === ResultCode.Success) {
+            thunkAPI.dispatch(setAppStatusAC({ status: "succeeded" }));
+            return { task: res.data.data.item };
+          } else {
+            handleServerAppError(res.data, thunkAPI.dispatch);
+            return thunkAPI.rejectWithValue(null);
+          }
         } catch (error) {
-          thunkAPI.dispatch(setAppStatusAC({ status: "failed" }));
+          handleServerNetworkError(error, thunkAPI.dispatch);
           return thunkAPI.rejectWithValue(null);
         }
       },

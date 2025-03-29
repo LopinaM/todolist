@@ -1,8 +1,9 @@
 import { Todolist } from "../api/todolistsApi.types";
 import { todolistsApi } from "../api/todolistsApi";
-import { createAppSlice } from "src/common/utils";
+import { createAppSlice, handleServerAppError, handleServerNetworkError } from "src/common/utils";
 import { setAppStatusAC } from "src/app/app-clice";
 import { RequestStatus } from "src/common/types";
+import { ResultCode } from "src/common/enums";
 
 export type FilterValuesType = "All" | "Completed" | "Active";
 
@@ -62,10 +63,16 @@ export const todolistsSlice = createAppSlice({
         try {
           thunkAPI.dispatch(setAppStatusAC({ status: "loading" }));
           const res = await todolistsApi.createTodolist(args.title);
-          thunkAPI.dispatch(setAppStatusAC({ status: "succeeded" }));
-          return { todolist: res.data.data.item };
+
+          if (res.data.resultCode === ResultCode.Success) {
+            thunkAPI.dispatch(setAppStatusAC({ status: "succeeded" }));
+            return { todolist: res.data.data.item };
+          } else {
+            handleServerAppError(res.data, thunkAPI.dispatch);
+            return thunkAPI.rejectWithValue(null);
+          }
         } catch (error) {
-          thunkAPI.dispatch(setAppStatusAC({ status: "failed" }));
+          handleServerNetworkError(error, thunkAPI.dispatch);
           return thunkAPI.rejectWithValue(null);
         }
       },
