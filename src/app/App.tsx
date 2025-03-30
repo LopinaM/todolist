@@ -5,8 +5,8 @@ import { ThemeProvider } from "@mui/material";
 import { useAppSelector } from "src/common/hooks";
 import { getTheme } from "src/common/theme";
 import { ErrorSnackbar, Header } from "src/common/components";
-import { Main } from "./Main";
 import { selectThemeMode } from "./app-clice";
+import { Routing } from "src/common/routing";
 
 const App = () => {
   const theme = getTheme(useAppSelector(selectThemeMode));
@@ -15,7 +15,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Header />
-      <Main />
+      <Routing />
       <ErrorSnackbar />
     </ThemeProvider>
   );
