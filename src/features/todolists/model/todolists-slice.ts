@@ -88,11 +88,17 @@ export const todolistsSlice = createAppSlice({
         try {
           thunkAPI.dispatch(setAppStatusAC({ status: "loading" }));
           thunkAPI.dispatch(changeTodolistStatusAC({ todolistId, entityStatus: "loading" }));
-          await todolistsApi.deleteTodolist(todolistId);
-          thunkAPI.dispatch(setAppStatusAC({ status: "succeeded" }));
-          return { todolistId };
+          const res = await todolistsApi.deleteTodolist(todolistId);
+          if (res.data.resultCode === ResultCode.Success) {
+            thunkAPI.dispatch(setAppStatusAC({ status: "succeeded" }));
+            return { todolistId };
+          } else {
+            thunkAPI.dispatch(changeTodolistStatusAC({ todolistId, entityStatus: "failed" }));
+            handleServerAppError(res.data, thunkAPI.dispatch);
+            return thunkAPI.rejectWithValue(null);
+          }
         } catch (error) {
-          thunkAPI.dispatch(setAppStatusAC({ status: "failed" }));
+          handleServerNetworkError(error, thunkAPI.dispatch);
           thunkAPI.dispatch(changeTodolistStatusAC({ todolistId, entityStatus: "failed" }));
           return thunkAPI.rejectWithValue(null);
         }
@@ -109,11 +115,16 @@ export const todolistsSlice = createAppSlice({
       async (args: { id: string; title: string }, thunkAPI) => {
         try {
           thunkAPI.dispatch(setAppStatusAC({ status: "loading" }));
-          await todolistsApi.changeTodolistTitle(args.id, args.title);
-          thunkAPI.dispatch(setAppStatusAC({ status: "succeeded" }));
-          return args;
+          const res = await todolistsApi.changeTodolistTitle(args.id, args.title);
+          if (res.data.resultCode === ResultCode.Success) {
+            thunkAPI.dispatch(setAppStatusAC({ status: "succeeded" }));
+            return args;
+          } else {
+            handleServerAppError(res.data, thunkAPI.dispatch);
+            return thunkAPI.rejectWithValue(null);
+          }
         } catch (error) {
-          thunkAPI.dispatch(setAppStatusAC({ status: "failed" }));
+          handleServerNetworkError(error, thunkAPI.dispatch);
           return thunkAPI.rejectWithValue(null);
         }
       },

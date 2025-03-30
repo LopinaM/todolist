@@ -34,7 +34,7 @@ export const Tasks = React.memo(({ todolist }: propsType) => {
       {filteredTasks?.length === 0 ? (
         <p>empty</p>
       ) : (
-        <List>{filteredTasks?.map((task) => <TaskItem key={task.id} todolistId={todolist.id} task={task} />)}</List>
+        <List>{filteredTasks?.map((task) => <TaskItem key={task.id} todolist={todolist} task={task} />)}</List>
       )}
     </>
   );

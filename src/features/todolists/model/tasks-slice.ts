@@ -4,15 +4,17 @@ import { Task, UpdateTaskModel } from "../api/tasksApi.types";
 import { setAppErrorAC, setAppStatusAC } from "src/app/app-clice";
 import { createTodolist, deleteTodolist } from "./todolists-slice";
 import { ResultCode } from "src/common/enums";
+import { RequestStatus } from "src/common/types";
 
-export type taskPropsType = {
-  id: string;
-  title: string;
-  isDone: boolean;
-};
+// export type taskPropsType = {
+//   id: string;
+//   title: string;
+//   isDone: boolean;
+// };
 
 export type TaskStateType = {
   [key: string]: Array<Task>;
+  // entityStatus: RequestStatus;
 };
 
 export const tasksSlice = createAppSlice({
@@ -69,11 +71,16 @@ export const tasksSlice = createAppSlice({
       async (payload: { todolistId: string; taskId: string }, thunkAPI) => {
         try {
           thunkAPI.dispatch(setAppStatusAC({ status: "loading" }));
-          await tasksApi.deleteTask(payload.todolistId, payload.taskId);
-          thunkAPI.dispatch(setAppStatusAC({ status: "succeeded" }));
-          return payload;
+          const res = await tasksApi.deleteTask(payload.todolistId, payload.taskId);
+          if (res.data.resultCode === ResultCode.Success) {
+            thunkAPI.dispatch(setAppStatusAC({ status: "succeeded" }));
+            return payload;
+          } else {
+            handleServerAppError(res.data, thunkAPI.dispatch);
+            return thunkAPI.rejectWithValue(null);
+          }
         } catch (error) {
-          thunkAPI.dispatch(setAppStatusAC({ status: "failed" }));
+          handleServerNetworkError(error, thunkAPI.dispatch);
           return thunkAPI.rejectWithValue(null);
         }
       },
