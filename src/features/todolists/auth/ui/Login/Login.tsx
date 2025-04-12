@@ -11,12 +11,8 @@ import { selectThemeMode } from "src/app/app-clice";
 import { useAppSelector } from "src/common/hooks";
 import { getTheme } from "src/common/theme";
 import styles from "./Login.module.css";
-
-type Inputs = {
-  email: string;
-  password: string;
-  rememberMe: boolean;
-};
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Inputs, loginSchema } from "src/features/auth/lib/schemas";
 
 export const Login = () => {
   const themeMode = useAppSelector(selectThemeMode);
@@ -32,6 +28,7 @@ export const Login = () => {
     control,
     formState: { errors },
   } = useForm<Inputs>({
+    resolver: zodResolver(loginSchema),
     defaultValues: { email: "", password: "", rememberMe: false },
   });
 
@@ -65,7 +62,7 @@ export const Login = () => {
         </FormLabel>
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormGroup>
-            <TextField
+            {/* <TextField
               placeholder="Email"
               label="Email"
               margin="normal"
@@ -77,8 +74,10 @@ export const Login = () => {
                   message: "Incorrect email address",
                 },
               })}
-            />
+            /> */}
+            <TextField label="Email" margin="normal" error={!!errors.email} {...register("email")} />
             {errors.email && <span className={styles.errorMessage}>{errors.email.message}</span>}
+
             <TextField
               placeholder="Password"
               type="password"
@@ -88,6 +87,7 @@ export const Login = () => {
               {...register("password")}
             />
             {errors.password && <span className={styles.errorMessage}>{errors.password.message}</span>}
+
             <FormControlLabel
               label="Remember me"
               control={

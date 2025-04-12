@@ -1,16 +1,10 @@
 import { createAppSlice, handleServerAppError, handleServerNetworkError } from "src/common/utils";
 import { tasksApi } from "../api/tasksApi";
 import { Task, UpdateTaskModel } from "../api/tasksApi.types";
-import { setAppErrorAC, setAppStatusAC } from "src/app/app-clice";
+import { setAppStatusAC } from "src/app/app-clice";
 import { createTodolist, deleteTodolist } from "./todolists-slice";
 import { ResultCode } from "src/common/enums";
 import { RequestStatus } from "src/common/types";
-
-// export type taskPropsType = {
-//   id: string;
-//   title: string;
-//   isDone: boolean;
-// };
 
 export type TaskStateType = {
   [key: string]: Array<Task>;
@@ -29,9 +23,11 @@ export const tasksSlice = createAppSlice({
         try {
           thunkAPI.dispatch(setAppStatusAC({ status: "loading" }));
           const res = await tasksApi.getTasks(todolistId);
+          // const tasks = TaskSchema.array().parse(res.items);
           thunkAPI.dispatch(setAppStatusAC({ status: "succeeded" }));
           return { todolistId, tasks: res.items };
         } catch (error) {
+          // console.log(error);
           thunkAPI.dispatch(setAppStatusAC({ status: "failed" }));
           return thunkAPI.rejectWithValue(null);
         }
@@ -147,3 +143,14 @@ export const tasksSlice = createAppSlice({
 export const { fetchTasksTC, createTask, deleteTask, updateTask } = tasksSlice.actions;
 export const tasksReducer = tasksSlice.reducer;
 export const { selectTasks } = tasksSlice.selectors;
+
+const getFirstElement = <T>(arr: T[]): T | undefined => {
+  if (arr.length === 0) {
+    return undefined;
+  }
+  return arr[0];
+};
+
+console.log(getFirstElement([1, 2, 3])); // 1
+console.log(getFirstElement(["apple", "banana", "cherry"])); // "apple"
+console.log(getFirstElement([])); // undefined
