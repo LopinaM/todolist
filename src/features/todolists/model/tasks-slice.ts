@@ -143,14 +143,3 @@ export const tasksSlice = createAppSlice({
 export const { fetchTasksTC, createTask, deleteTask, updateTask } = tasksSlice.actions;
 export const tasksReducer = tasksSlice.reducer;
 export const { selectTasks } = tasksSlice.selectors;
-
-const getFirstElement = <T>(arr: T[]): T | undefined => {
-  if (arr.length === 0) {
-    return undefined;
-  }
-  return arr[0];
-};
-
-console.log(getFirstElement([1, 2, 3])); // 1
-console.log(getFirstElement(["apple", "banana", "cherry"])); // "apple"
-console.log(getFirstElement([])); // undefined

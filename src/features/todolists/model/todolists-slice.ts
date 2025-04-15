@@ -1,4 +1,4 @@
-import { Todolist } from "../api/todolistsApi.types";
+import { Todolist, TodolistSchema } from "../api/todolistsApi.types";
 import { todolistsApi } from "../api/todolistsApi";
 import { createAppSlice, handleServerAppError, handleServerNetworkError } from "src/common/utils";
 import { setAppStatusAC } from "src/app/app-clice";
@@ -42,6 +42,7 @@ export const todolistsSlice = createAppSlice({
         try {
           thunkAPI.dispatch(setAppStatusAC({ status: "loading" }));
           const res = await todolistsApi.getTodolists();
+          // const tasks = TodolistSchema.array().parse(res.data);
           thunkAPI.dispatch(setAppStatusAC({ status: "succeeded" }));
           return { todolists: res.data };
         } catch (error) {
