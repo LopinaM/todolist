@@ -4,6 +4,8 @@ import { ResultCode } from "src/common/enums";
 import { setAppStatusAC } from "src/app/app-clice";
 import { authApi } from "../api/authApi";
 import { AUTH_TOKEN } from "src/common/constants";
+import { clearDataAC } from "src/common/actions";
+import { current } from "@reduxjs/toolkit";
 
 export const authSlice = createAppSlice({
   name: "auth",
@@ -49,6 +51,7 @@ export const authSlice = createAppSlice({
 
           if (res.data.resultCode === ResultCode.Success) {
             dispatch(setAppStatusAC({ status: "succeeded" }));
+            dispatch(clearDataAC());
             localStorage.removeItem(AUTH_TOKEN);
             return { isLoggedIn: false };
           } else {

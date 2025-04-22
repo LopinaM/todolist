@@ -5,6 +5,8 @@ import { setAppStatusAC } from "src/app/app-clice";
 import { createTodolist, deleteTodolist } from "./todolists-slice";
 import { ResultCode } from "src/common/enums";
 import { RequestStatus } from "src/common/types";
+import { current } from "@reduxjs/toolkit";
+import { clearDataAC } from "src/common/actions";
 
 export type TaskStateType = {
   [key: string]: Array<Task>;
@@ -136,6 +138,9 @@ export const tasksSlice = createAppSlice({
     });
     builder.addCase(deleteTodolist.fulfilled, (state, action) => {
       delete state[action.payload.todolistId];
+    });
+    builder.addCase(clearDataAC, () => {
+      return {};
     });
   },
 });

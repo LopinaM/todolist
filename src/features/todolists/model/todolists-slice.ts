@@ -4,6 +4,7 @@ import { createAppSlice, handleServerAppError, handleServerNetworkError } from "
 import { setAppStatusAC } from "src/app/app-clice";
 import { RequestStatus } from "src/common/types";
 import { ResultCode } from "src/common/enums";
+import { clearDataAC } from "src/common/actions";
 
 export type FilterValuesType = "All" | "Completed" | "Active";
 
@@ -21,6 +22,11 @@ export const todolistsSlice = createAppSlice({
   // },
   selectors: {
     selectTodolists: (state) => state,
+  },
+  extraReducers: (builder) => {
+    builder.addCase(clearDataAC, () => {
+      return [];
+    });
   },
   reducers: (create) => ({
     //actions
