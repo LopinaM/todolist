@@ -3,14 +3,20 @@ import { Menu } from "@mui/icons-material";
 import { MenuButton } from "../MenuButton/MenuButton";
 import { useAppDispatch, useAppSelector } from "src/common/hooks";
 import { changeThemeModeAC, selectStatus, selectThemeMode } from "src/app/app-clice";
+import { logoutTC, selectIsLoggedIn } from "src/features/auth/model/auth-slice";
 
 export const Header = () => {
   const themeMode = useAppSelector(selectThemeMode);
   const status = useAppSelector(selectStatus);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const dispatch = useAppDispatch();
 
   const onChangeThemeMode = () => {
     dispatch(changeThemeModeAC({ themeMode: themeMode === "light" ? "dark" : "light" }));
+  };
+
+  const logoutHandler = () => {
+    dispatch(logoutTC());
   };
 
   return (
@@ -23,12 +29,12 @@ export const Header = () => {
           News
         </Typography>
         <Box sx={{ display: "flex", gap: "10px" }}>
-          <Button variant="outlined" color="inherit">
-            Login
-          </Button>
-          <Button variant="outlined" color="inherit">
-            Logout
-          </Button>
+          {isLoggedIn && (
+            <Button variant="outlined" color="inherit" onClick={logoutHandler}>
+              Logout
+            </Button>
+          )}
+
           <Button variant="outlined" color="inherit">
             Faq
           </Button>

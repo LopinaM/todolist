@@ -1,4 +1,4 @@
-import { Todolist, TodolistSchema } from "../api/todolistsApi.types";
+import { Todolist } from "../api/todolistsApi.types";
 import { todolistsApi } from "../api/todolistsApi";
 import { createAppSlice, handleServerAppError, handleServerNetworkError } from "src/common/utils";
 import { setAppStatusAC } from "src/app/app-clice";
@@ -52,8 +52,12 @@ export const todolistsSlice = createAppSlice({
       },
       {
         fulfilled: (state, action) => {
-          action.payload?.todolists.forEach((tl) => {
-            state.push({ ...tl, filter: "All", entityStatus: "idle" });
+          // action.payload?.todolists.forEach((tl) => {
+          //   state.push({ ...tl, filter: "All", entityStatus: "idle" });
+          // });
+
+          return action.payload.todolists.map((tl) => {
+            return { ...tl, filter: "All", entityStatus: "idle" };
           });
         },
       },
