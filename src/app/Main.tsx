@@ -7,29 +7,25 @@ import { Todolists } from "src/features/todolists/ui/Todolists/Todolits";
 import { selectIsLoggedIn } from "src/features/auth/model/auth-slice";
 import { Navigate, useNavigate } from "react-router";
 import { Path } from "src/common/routing/Routing";
+import { useCreateTodolistMutation } from "src/features/todolists/api/todolistsApi";
 
 export const Main = () => {
-  // const isLoggedIn = useAppSelector(selectIsLoggedIn);
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const addTodolist = React.useCallback(
-    (title: string) => {
-      dispatch(createTodolist({ title }));
-    },
-    [dispatch],
-  );
+  // const addTodolist = React.useCallback(
+  //   (title: string) => {
+  //     dispatch(createTodolist({ title }));
+  //   },
+  //   [dispatch],
+  // );
 
-  // useEffect(() => {
-  //   if (!isLoggedIn) {
-  //     navigate(Path.Login);
-  //   }
-  // }, [isLoggedIn]);
+  const [createTodolist] = useCreateTodolistMutation();
 
-  // if (!isLoggedIn) {
-  //   return <Navigate to={Path.Login} />;
-  // }
+  const addTodolist = (title: string) => {
+    createTodolist(title);
+  };
 
   return (
     <Container fixed>
