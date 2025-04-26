@@ -1,5 +1,5 @@
 import { Todolist } from "../api/todolistsApi.types";
-import { todolistsApi } from "../api/todolistsApi";
+import { _todolistsApi, todolistsApi } from "../api/todolistsApi";
 import { createAppSlice, handleServerAppError, handleServerNetworkError } from "src/common/utils";
 import { setAppStatusAC } from "src/app/app-clice";
 import { RequestStatus } from "src/common/types";
@@ -47,7 +47,7 @@ export const todolistsSlice = createAppSlice({
       async (_, thunkAPI) => {
         try {
           thunkAPI.dispatch(setAppStatusAC({ status: "loading" }));
-          const res = await todolistsApi.getTodolists();
+          const res = await _todolistsApi.getTodolists();
           // const tasks = TodolistSchema.array().parse(res.data);
           thunkAPI.dispatch(setAppStatusAC({ status: "succeeded" }));
           return { todolists: res.data };
@@ -73,7 +73,7 @@ export const todolistsSlice = createAppSlice({
       async (args: { title: string }, thunkAPI) => {
         try {
           thunkAPI.dispatch(setAppStatusAC({ status: "loading" }));
-          const res = await todolistsApi.createTodolist(args.title);
+          const res = await _todolistsApi.createTodolist(args.title);
 
           if (res.data.resultCode === ResultCode.Success) {
             thunkAPI.dispatch(setAppStatusAC({ status: "succeeded" }));
@@ -99,7 +99,7 @@ export const todolistsSlice = createAppSlice({
         try {
           thunkAPI.dispatch(setAppStatusAC({ status: "loading" }));
           thunkAPI.dispatch(changeTodolistStatusAC({ todolistId, entityStatus: "loading" }));
-          const res = await todolistsApi.deleteTodolist(todolistId);
+          const res = await _todolistsApi.deleteTodolist(todolistId);
           if (res.data.resultCode === ResultCode.Success) {
             thunkAPI.dispatch(setAppStatusAC({ status: "succeeded" }));
             return { todolistId };
@@ -126,7 +126,7 @@ export const todolistsSlice = createAppSlice({
       async (args: { id: string; title: string }, thunkAPI) => {
         try {
           thunkAPI.dispatch(setAppStatusAC({ status: "loading" }));
-          const res = await todolistsApi.changeTodolistTitle(args.id, args.title);
+          const res = await _todolistsApi.changeTodolistTitle(args.id, args.title);
           if (res.data.resultCode === ResultCode.Success) {
             thunkAPI.dispatch(setAppStatusAC({ status: "succeeded" }));
             return args;

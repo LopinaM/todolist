@@ -1,22 +1,31 @@
 import { AppBar, Box, Button, IconButton, LinearProgress, Switch, Toolbar, Typography } from "@mui/material";
 import { Menu } from "@mui/icons-material";
-import { MenuButton } from "../MenuButton/MenuButton";
 import { useAppDispatch, useAppSelector } from "src/common/hooks";
-import { changeThemeModeAC, selectStatus, selectThemeMode } from "src/app/app-clice";
-import { logoutTC, selectIsLoggedIn } from "src/features/auth/model/auth-slice";
+import { changeThemeModeAC, selectIsLoggedIn, selectStatus, selectThemeMode, setIsLoggedInAC } from "src/app/app-clice";
+import { useLogoutMutation } from "src/features/auth/api/authApi";
+import { ResultCode } from "src/common/enums";
+import { AUTH_TOKEN } from "src/common/constants";
+import { clearDataAC } from "src/common/actions";
 
 export const Header = () => {
   const themeMode = useAppSelector(selectThemeMode);
   const status = useAppSelector(selectStatus);
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const dispatch = useAppDispatch();
+  const [logout] = useLogoutMutation();
 
   const onChangeThemeMode = () => {
     dispatch(changeThemeModeAC({ themeMode: themeMode === "light" ? "dark" : "light" }));
   };
 
   const logoutHandler = () => {
-    dispatch(logoutTC());
+    logout().then((res) => {
+      if (res.data?.resultCode === ResultCode.Success) {
+        dispatch(setIsLoggedInAC({ isLoggedIn: false }));
+        localStorage.removeItem(AUTH_TOKEN);
+        dispatch(clearDataAC());
+      }
+    });
   };
 
   return (

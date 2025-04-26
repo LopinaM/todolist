@@ -1,31 +1,19 @@
 import { instance } from "src/common/instance";
-import { Todolist } from "./todolistsApi.types";
+import { Todolist, TodolistSchema } from "./todolistsApi.types";
 import type { BaseTodoResponse } from "src/common/types";
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { AUTH_TOKEN } from "src/common/constants";
 import { TodolistType } from "../model/todolists-slice";
+import { baseApi } from "src/app/baseApi";
 
-export const todolistsApi = createApi({
-  // `reducerPath` - имя `slice`, куда будут сохранены состояние и экшены для этого `API`
-  reducerPath: "todolistsApi",
-  // `baseQuery` - конфигурация для `HTTP-клиента`, который будет использоваться для отправки запросов
-  baseQuery: fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_BASE_URL,
-    prepareHeaders: (headers) => {
-      headers.set("API-KEY", `${process.env.REACT_APP_API_KEY}`);
-      headers.set("Authorization", `Bearer ${localStorage.getItem(AUTH_TOKEN)}`);
-    },
-  }),
-  // `endpoints` - метод, возвращающий объект с эндпоинтами для `API`, описанными
-  // с помощью функций, которые будут вызываться при вызове соответствующих методов `API`
-  // (например `get`, `post`, `put`, `patch`, `delete`)
+export const todolistsApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    // Типизация аргументов (<возвращаемый тип, тип query аргументов (`QueryArg`)>)
-    // `query` по умолчанию создает запрос `get` и указание метода необязательно
     getTodolists: build.query<TodolistType[], void>({
       query: () => ({ url: "/todo-lists" }),
-      transformResponse: (todolists: Todolist[]): TodolistType[] =>
-        todolists.map((todolist) => ({ ...todolist, filter: "All", entityStatus: "idle" })),
+      transformResponse: (todolists: Todolist[]): TodolistType[] => {
+        // TodolistSchema.array().parse(todolists);
+
+        return todolists.map((todolist) => ({ ...todolist, filter: "All", entityStatus: "idle" }));
+      },
+      providesTags: ["Todolist"],
     }),
     createTodolist: build.mutation<BaseTodoResponse<{ item: Todolist }>, string>({
       query: (title) => ({
@@ -33,12 +21,14 @@ export const todolistsApi = createApi({
         url: "/todo-lists",
         body: { title },
       }),
+      invalidatesTags: ["Todolist"],
     }),
     deleteTodolist: build.mutation<BaseTodoResponse, string>({
       query: (id) => ({
         method: "delete",
         url: `/todo-lists/${id}`,
       }),
+      invalidatesTags: ["Todolist"],
     }),
     changeTodolistTitle: build.mutation<BaseTodoResponse, { id: string; title: string }>({
       query: ({ id, title }) => ({
@@ -46,12 +36,11 @@ export const todolistsApi = createApi({
         url: `/todo-lists/${id}`,
         body: { title },
       }),
+      invalidatesTags: ["Todolist"],
     }),
   }),
 });
 
-// `createApi` создает объект `API`, который содержит все эндпоинты в виде хуков,
-// определенные в свойстве `endpoints`
 export const {
   useGetTodolistsQuery,
   useCreateTodolistMutation,

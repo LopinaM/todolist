@@ -1,32 +1,26 @@
-import React, { useEffect } from "react";
+import React from "react";
 import List from "@mui/material/List";
 import { TaskItem } from "./TaskItem/TaskItem";
-import { useAppSelector } from "../../../../../../common/hooks/useAppSelector";
 import { TodolistType } from "src/features/todolists/model/todolists-slice";
-import { fetchTasksTC, selectTasks } from "src/features/todolists/model/tasks-slice";
-import { useAppDispatch } from "src/common/hooks";
 import { TaskStatus } from "src/common/enums";
+import { useGetTasksQuery } from "src/features/todolists/api/tasksApi";
 
 type propsType = {
   todolist: TodolistType;
 };
 export const Tasks = React.memo(({ todolist }: propsType) => {
-  const tasks = useAppSelector(selectTasks);
+  const { data: tasks } = useGetTasksQuery(todolist.id);
 
-  const dispatch = useAppDispatch();
+  // console.log(tasks);
 
-  useEffect(() => {
-    dispatch(fetchTasksTC(todolist.id));
-  }, []);
-
-  const taskForTodolist = tasks[todolist.id];
+  const taskForTodolist = tasks?.items;
   let filteredTasks = taskForTodolist;
 
   if (todolist.filter === "Completed") {
-    filteredTasks = taskForTodolist.filter((t) => t.status === TaskStatus.Completed);
+    filteredTasks = taskForTodolist?.filter((t) => t.status === TaskStatus.Completed);
   }
   if (todolist.filter === "Active") {
-    filteredTasks = taskForTodolist.filter((t) => t.status === TaskStatus.New);
+    filteredTasks = taskForTodolist?.filter((t) => t.status === TaskStatus.New);
   }
 
   return (

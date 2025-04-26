@@ -7,31 +7,21 @@ import FormLabel from "@mui/material/FormLabel";
 import Grid from "@mui/material/Grid2";
 import TextField from "@mui/material/TextField";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { selectThemeMode } from "src/app/app-clice";
+import { selectThemeMode, setIsLoggedInAC } from "src/app/app-clice";
 import { useAppDispatch, useAppSelector } from "src/common/hooks";
 import { getTheme } from "src/common/theme";
 import styles from "./Login.module.css";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Inputs, loginSchema } from "src/features/auth/lib/schemas";
-import { loginTC, selectIsLoggedIn } from "src/features/auth/model/auth-slice";
-import { Navigate, useNavigate } from "react-router";
-import { useEffect } from "react";
-import { Path } from "src/common/routing/Routing";
+import { useLoginMutation } from "src/features/auth/api/authApi";
+import { ResultCode } from "src/common/enums";
+import { AUTH_TOKEN } from "src/common/constants";
 
 export const Login = () => {
   const themeMode = useAppSelector(selectThemeMode);
-  // const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  const [login] = useLoginMutation();
 
-  // console.log(isLoggedIn);
-
-  // console.log("Login render");
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     navigate(Path.Main);
-  //   }
-  // }, [isLoggedIn]);
   const theme = getTheme(themeMode);
 
   const {
@@ -47,13 +37,14 @@ export const Login = () => {
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     // console.log(data);
-    dispatch(loginTC(data));
-    // reset(); //Для очистки формы после успешного выполнения onSubmit
+    login(data).then((res) => {
+      if (res.data?.resultCode === ResultCode.Success) {
+        dispatch(setIsLoggedInAC({ isLoggedIn: true }));
+        localStorage.setItem(AUTH_TOKEN, res.data.data.token);
+        reset(); //Для очистки формы после успешного выполнения onSubmit
+      }
+    });
   };
-
-  // if (isLoggedIn) {
-  //   return <Navigate to={Path.Main} />;
-  // }
 
   return (
     <Grid container justifyContent={"center"}>

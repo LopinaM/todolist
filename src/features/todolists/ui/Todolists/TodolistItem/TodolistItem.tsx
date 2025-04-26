@@ -1,25 +1,21 @@
 import React from "react";
-import { useAppDispatch } from "src/common/hooks/useAppDispatch";
 import { TodolistType } from "src/features/todolists/model/todolists-slice";
 import { TodolistTitle } from "./TodolistTitle/TodolistTitle";
 import { AddItemForm } from "src/common/components/AddItemForm/AddItemForm";
 import { Tasks } from "./Tasks/Tasks";
 import { FilterButtons } from "./FilterButtons/FilterButtons";
-import { createTask } from "src/features/todolists/model/tasks-slice";
+import { useCreateTaskMutation } from "src/features/todolists/api/tasksApi";
 
 type todolistPropsType = {
   todolist: TodolistType;
 };
 
 export const TodolistItem = React.memo(({ todolist }: todolistPropsType) => {
-  const dispatch = useAppDispatch();
+  const [createTask] = useCreateTaskMutation();
 
-  const addTask = React.useCallback(
-    (title: string) => {
-      dispatch(createTask({ todolistId: todolist.id, title }));
-    },
-    [dispatch, todolist.id],
-  );
+  const addTask = (title: string) => {
+    createTask({ todolistId: todolist.id, title });
+  };
 
   return (
     <>

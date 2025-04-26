@@ -3,8 +3,8 @@ import { Main } from "src/app/Main";
 import { Login } from "src/features/todolists/auth/ui/Login/Login";
 import { PageNotFound } from "../components";
 import { ProtectedRoute } from "../components/ProtectedRoute/ProtectedRoute";
-import { selectIsLoggedIn } from "src/features/auth/model/auth-slice";
 import { useAppSelector } from "../hooks";
+import { selectIsLoggedIn } from "src/app/app-clice";
 
 export const Path = {
   Main: "/",
