@@ -3,18 +3,40 @@ import { EditableSpan } from "../../../../../../common/components/EditableSpan/E
 import { IconButton, Typography } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import { TodolistType } from "src/features/todolists/model/todolists-slice";
-import { useChangeTodolistTitleMutation, useDeleteTodolistMutation } from "src/features/todolists/api/todolistsApi";
+import { todolistsApi, useChangeTodolistTitleMutation, useDeleteTodolistMutation } from "src/features/todolists/api/todolistsApi";
+import { useAppDispatch } from "src/common/hooks";
+import { RequestStatus } from "src/common/types";
 
 type propsType = {
   todolist: TodolistType;
 };
 
 export const TodolistTitle = React.memo(({ todolist }: propsType) => {
+  const { id, title, entityStatus } = todolist;
+
+  const dispatch = useAppDispatch();
+
   const [deleteTodolist] = useDeleteTodolistMutation();
   const [changeTodolistTitle] = useChangeTodolistTitleMutation();
 
+  const changeTodolistStatus = (entityStatus: RequestStatus) => {
+    dispatch(
+      todolistsApi.util.updateQueryData("getTodolists", undefined, (state) => {
+        const todolist = state.find((todolist) => todolist.id === id);
+        if (todolist) {
+          todolist.entityStatus = entityStatus;
+        }
+      }),
+    );
+  };
+
   const removeTodolist = () => {
-    deleteTodolist(todolist.id);
+    changeTodolistStatus("loading");
+    deleteTodolist(id)
+      .unwrap()
+      .catch(() => {
+        changeTodolistStatus("idle");
+      });
   };
 
   const onChangeTodolistTitle = (title: string) => {
@@ -24,12 +46,8 @@ export const TodolistTitle = React.memo(({ todolist }: propsType) => {
   return (
     <>
       <Typography align="center" variant="h6">
-        <EditableSpan
-          title={todolist.title}
-          onchange={onChangeTodolistTitle}
-          disabled={todolist.entityStatus === "loading"}
-        />
-        <IconButton aria-label="delete" onClick={removeTodolist} disabled={todolist.entityStatus === "loading"}>
+        <EditableSpan title={title} onchange={onChangeTodolistTitle} disabled={entityStatus === "loading"} />
+        <IconButton aria-label="delete" onClick={removeTodolist} disabled={entityStatus === "loading"}>
           <Delete />
         </IconButton>
       </Typography>

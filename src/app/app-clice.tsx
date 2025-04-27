@@ -1,6 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, isFulfilled, isPending, isRejected } from "@reduxjs/toolkit";
 import type { ThemeMode } from "src/common/theme";
 import type { RequestStatus } from "src/common/types";
+import { tasksApi } from "src/features/todolists/api/tasksApi";
+import { todolistsApi } from "src/features/todolists/api/todolistsApi";
 
 const initialState = {
   themeMode: "light" as ThemeMode,
@@ -31,6 +33,21 @@ export const appSlice = createSlice({
     selectStatus: (sliceState) => sliceState.status,
     selectAppError: (sliceState) => sliceState.error,
     selectIsLoggedIn: (state) => state.isLoggedIn,
+  },
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(isPending, (state, action) => {
+        // if (todolistsApi.endpoints.getTodolists.matchPending(action) || tasksApi.endpoints.getTasks.matchPending(action)) {
+        //   return;
+        // }
+        state.status = "loading";
+      })
+      .addMatcher(isFulfilled, (state) => {
+        state.status = "succeeded";
+      })
+      .addMatcher(isRejected, (state) => {
+        state.status = "failed";
+      });
   },
 });
 

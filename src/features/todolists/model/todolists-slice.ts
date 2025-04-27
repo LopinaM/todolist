@@ -154,7 +154,7 @@ export const todolistsSlice = createAppSlice({
 export const {
   changeTodolistFilterAC,
   changeTodolistStatusAC,
-  fetchTodolistsTC,
+
   createTodolist,
   deleteTodolist,
   changeTodolistTitle,

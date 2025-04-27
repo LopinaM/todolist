@@ -6,6 +6,7 @@ import { useLogoutMutation } from "src/features/auth/api/authApi";
 import { ResultCode } from "src/common/enums";
 import { AUTH_TOKEN } from "src/common/constants";
 import { clearDataAC } from "src/common/actions";
+import { baseApi } from "src/app/baseApi";
 
 export const Header = () => {
   const themeMode = useAppSelector(selectThemeMode);
@@ -19,13 +20,17 @@ export const Header = () => {
   };
 
   const logoutHandler = () => {
-    logout().then((res) => {
-      if (res.data?.resultCode === ResultCode.Success) {
-        dispatch(setIsLoggedInAC({ isLoggedIn: false }));
-        localStorage.removeItem(AUTH_TOKEN);
-        dispatch(clearDataAC());
-      }
-    });
+    logout()
+      .then((res) => {
+        if (res.data?.resultCode === ResultCode.Success) {
+          dispatch(setIsLoggedInAC({ isLoggedIn: false }));
+          localStorage.removeItem(AUTH_TOKEN);
+          // dispatch(baseApi.util.resetApiState());
+        }
+      })
+      .then(() => {
+        dispatch(baseApi.util.invalidateTags(["Todolist", "Tasks"]));
+      });
   };
 
   return (
