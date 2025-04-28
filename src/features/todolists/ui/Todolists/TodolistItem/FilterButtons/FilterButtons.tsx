@@ -2,8 +2,8 @@ import React from "react";
 import { Box, Button } from "@mui/material";
 import { filterButtonsContainerSx } from "./FilterButtons.styles";
 import { useAppDispatch } from "src/common/hooks/useAppDispatch";
-import { FilterValuesType, TodolistType } from "src/features/todolists/model/todolists-slice";
 import { todolistsApi } from "src/features/todolists/api/todolistsApi";
+import { FilterValuesType, TodolistType } from "src/features/todolists/lib/types/types";
 
 type propsType = {
   todolist: TodolistType;
@@ -20,10 +20,6 @@ export const FilterButtons = React.memo(({ todolist }: propsType) => {
         if (todolist) {
           todolist.filter = filter;
         }
-        // const todolist = data.findIndex((todolist) => todolist.id === id);
-        // if (todolist !== -1) {
-        //   data[todolist].filter = filter;
-        // }
       }),
     );
   };

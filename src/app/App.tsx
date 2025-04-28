@@ -13,9 +13,7 @@ import { ResultCode } from "src/common/enums";
 const App = () => {
   const [isInitialized, setIsInitialized] = useState(false);
   const theme = getTheme(useAppSelector(selectThemeMode));
-  // const isInitialized = useAppSelector(selectIsInitialized);
   const dispatch = useAppDispatch();
-
   const { data, isLoading } = useMeQuery();
 
   useEffect(() => {

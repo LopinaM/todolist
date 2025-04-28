@@ -1,8 +1,7 @@
-import { instance } from "src/common/instance";
-import { Todolist, TodolistSchema } from "./todolistsApi.types";
-import type { BaseTodoResponse } from "src/common/types";
-import { TodolistType } from "../model/todolists-slice";
+import { Todolist, TodolistSchema, CreateTodolistResponseSchema, CreateTodolistResponse } from "./todolistsApi.types";
+import { defaultResponseSchema, type DefaultResponse } from "src/common/types";
 import { baseApi } from "src/app/baseApi";
+import { TodolistType } from "../lib/types/types";
 
 export const todolistsApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -14,51 +13,36 @@ export const todolistsApi = baseApi.injectEndpoints({
         return todolists.map((todolist) => ({ ...todolist, filter: "All", entityStatus: "idle" }));
       },
       providesTags: ["Todolist"],
+      extraOptions: { dataSchema: TodolistSchema.array() },
     }),
-    createTodolist: build.mutation<BaseTodoResponse<{ item: Todolist }>, string>({
+    createTodolist: build.mutation<CreateTodolistResponse, string>({
       query: (title) => ({
         method: "post",
         url: "/todo-lists",
         body: { title },
       }),
       invalidatesTags: ["Todolist"],
+      extraOptions: { dataSchema: CreateTodolistResponseSchema },
     }),
-    deleteTodolist: build.mutation<BaseTodoResponse, string>({
+    deleteTodolist: build.mutation<DefaultResponse, string>({
       query: (id) => ({
         method: "delete",
         url: `/todo-lists/${id}`,
       }),
       invalidatesTags: ["Todolist"],
+      extraOptions: { dataSchema: defaultResponseSchema },
     }),
-    changeTodolistTitle: build.mutation<BaseTodoResponse, { id: string; title: string }>({
+    changeTodolistTitle: build.mutation<DefaultResponse, { id: string; title: string }>({
       query: ({ id, title }) => ({
         method: "put",
         url: `/todo-lists/${id}`,
         body: { title },
       }),
       invalidatesTags: ["Todolist"],
+      extraOptions: { dataSchema: defaultResponseSchema },
     }),
   }),
 });
 
-export const {
-  useGetTodolistsQuery,
-  useCreateTodolistMutation,
-  useDeleteTodolistMutation,
-  useChangeTodolistTitleMutation,
-} = todolistsApi;
-
-export const _todolistsApi = {
-  getTodolists() {
-    return instance.get<Todolist[]>("/todo-lists");
-  },
-  createTodolist(title: string) {
-    return instance.post<BaseTodoResponse<{ item: Todolist }>>("/todo-lists", { title });
-  },
-  deleteTodolist(id: string) {
-    return instance.delete<BaseTodoResponse>(`/todo-lists/${id}`);
-  },
-  changeTodolistTitle(id: string, title: string) {
-    return instance.put<BaseTodoResponse>(`/todo-lists/${id}`, { title });
-  },
-};
+export const { useGetTodolistsQuery, useCreateTodolistMutation, useDeleteTodolistMutation, useChangeTodolistTitleMutation } =
+  todolistsApi;

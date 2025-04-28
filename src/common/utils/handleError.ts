@@ -1,7 +1,7 @@
 import { setAppErrorAC } from "src/app/app-clice";
-import { isErrorWithMessage } from "./isErrorWithMessage";
 import { BaseQueryApi, FetchBaseQueryError, FetchBaseQueryMeta, QueryReturnValue } from "@reduxjs/toolkit/query/react";
 import { ResultCode } from "../enums";
+import { isErrorWithMessage } from "./isErrorWithMessage";
 
 // const customBaseQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (args, api, extraOptions) => {
 //   const result = await fetchBaseQuery({

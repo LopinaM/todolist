@@ -5,15 +5,15 @@ import { Delete } from "@mui/icons-material";
 import { getListItemSx } from "./TaskItem.styles";
 import { Task, UpdateTaskModel } from "src/features/todolists/api/tasksApi.types";
 import { TaskStatus } from "src/common/enums";
-import { TodolistType } from "src/features/todolists/model/todolists-slice";
 import { useDeleteTaskMutation, useUpdateTaskMutation } from "src/features/todolists/api/tasksApi";
+import { TodolistType } from "src/features/todolists/lib/types/types";
 
-type taskType = {
+type TaskItemProps = {
   task: Task;
   todolist: TodolistType;
 };
 
-export const TaskItem = React.memo(({ task, todolist }: taskType) => {
+export const TaskItem = React.memo(({ task, todolist }: TaskItemProps) => {
   const [deleteTaskStatus, setStateDeleteTaskStatus] = React.useState(false);
 
   const [deleteTask] = useDeleteTaskMutation();

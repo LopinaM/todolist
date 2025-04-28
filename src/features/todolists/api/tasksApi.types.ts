@@ -1,4 +1,5 @@
 import { TaskPriority, TaskStatus } from "src/common/enums";
+import { baseResponseSchema } from "src/common/types";
 import { z } from "zod";
 
 export const TaskSchema = z.object({
@@ -12,16 +13,26 @@ export const TaskSchema = z.object({
   id: z.string(),
   todoListId: z.string(),
   order: z.number(),
-  addedDate: z.string(),
+  addedDate: z.string().datetime({ local: true }),
 });
 
 export type Task = z.infer<typeof TaskSchema>;
 
-export type GetTasksResponse = {
-  error: string | null;
-  totalCount: number;
-  items: Task[];
-};
+export const getTasksSchema = z.object({
+  error: z.string().nullable(),
+  totalCount: z.number().int().nonnegative(),
+  items: TaskSchema.array(),
+});
+
+export type GetTasksResponse = z.infer<typeof getTasksSchema>;
+
+export const TaskOperationResponseSchema = baseResponseSchema(
+  z.object({
+    item: TaskSchema,
+  }),
+);
+
+export type TaskOperationResponse = z.infer<typeof TaskOperationResponseSchema>;
 
 export type UpdateTaskModel = {
   description: string | null;

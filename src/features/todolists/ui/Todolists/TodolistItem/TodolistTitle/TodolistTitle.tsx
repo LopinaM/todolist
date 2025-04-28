@@ -2,16 +2,16 @@ import React from "react";
 import { EditableSpan } from "../../../../../../common/components/EditableSpan/EditableSpan";
 import { IconButton, Typography } from "@mui/material";
 import { Delete } from "@mui/icons-material";
-import { TodolistType } from "src/features/todolists/model/todolists-slice";
 import { todolistsApi, useChangeTodolistTitleMutation, useDeleteTodolistMutation } from "src/features/todolists/api/todolistsApi";
 import { useAppDispatch } from "src/common/hooks";
 import { RequestStatus } from "src/common/types";
+import { TodolistType } from "src/features/todolists/lib/types/types";
 
-type propsType = {
+type TodolistTitleProps = {
   todolist: TodolistType;
 };
 
-export const TodolistTitle = React.memo(({ todolist }: propsType) => {
+export const TodolistTitle = React.memo(({ todolist }: TodolistTitleProps) => {
   const { id, title, entityStatus } = todolist;
 
   const dispatch = useAppDispatch();
