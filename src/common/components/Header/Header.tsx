@@ -1,12 +1,12 @@
-import { AppBar, Box, Button, IconButton, LinearProgress, Switch, Toolbar, Typography } from "@mui/material";
-import { Menu } from "@mui/icons-material";
+import { AppBar, Box, Button, LinearProgress, Switch, Toolbar, Typography } from "@mui/material";
+import InventoryOutlinedIcon from "@mui/icons-material/InventoryOutlined";
 import { useAppDispatch, useAppSelector } from "src/common/hooks";
 import { changeThemeModeAC, selectIsLoggedIn, selectStatus, selectThemeMode, setIsLoggedInAC } from "src/app/app-clice";
 import { useLogoutMutation } from "src/features/auth/api/authApi";
 import { ResultCode } from "src/common/enums";
 import { AUTH_TOKEN } from "src/common/constants";
-import { clearDataAC } from "src/common/actions";
 import { baseApi } from "src/app/baseApi";
+import list from "../../assets/list.png";
 
 export const Header = () => {
   const themeMode = useAppSelector(selectThemeMode);
@@ -36,23 +36,20 @@ export const Header = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
-          <Menu />
-        </IconButton>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          News
-        </Typography>
-        <Box sx={{ display: "flex", gap: "10px" }}>
-          {isLoggedIn && (
+        <div style={{ display: "flex", flexGrow: 1, gap: 5, alignItems: "center" }}>
+          <InventoryOutlinedIcon />
+          <Typography variant="h6">To-Do Lists</Typography>
+          {/* <img src={list} alt="list" style={{ width: 20, height: 20, color: "#fff" }} /> */}
+        </div>
+
+        {isLoggedIn && (
+          <Box sx={{ display: "flex", gap: "10px" }}>
             <Button variant="outlined" color="inherit" onClick={logoutHandler}>
               Logout
             </Button>
-          )}
+          </Box>
+        )}
 
-          <Button variant="outlined" color="inherit">
-            Faq
-          </Button>
-        </Box>
         <Switch onChange={onChangeThemeMode} />
       </Toolbar>
       {status === "loading" && <LinearProgress color="secondary" />}

@@ -38,14 +38,4 @@ export const LoginResponseSchema = baseResponseSchema(
 
 export type LoginResponse = z.infer<typeof LoginResponseSchema>;
 
-export const MeResponseSchema = baseResponseSchema(
-  z.object({
-    id: z.number(),
-    email: z.string(),
-    login: z.string(),
-  }),
-);
-
-export type MeResponse = z.infer<typeof MeResponseSchema>;
-
 export type RequestStatus = "idle" | "loading" | "succeeded" | "failed";

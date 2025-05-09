@@ -1,10 +1,5 @@
-.common {
-  display: flex;
-  justify-content: space-between;
-}
-
 .container {
-  width: 305px;
+  width: 300px;
   padding: 10px;
 }
 
@@ -12,14 +7,18 @@
   display: flex;
   gap: 15px;
   align-items: center;
+  justify-content: center;
 }
 
 .createItemForm {
-  composes: common;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+  padding: 4px 8px;
 }
 
 .tasks {
-  composes: common;
+  display: flex;
+  justify-content: space-between;
   gap: 15px;
 }

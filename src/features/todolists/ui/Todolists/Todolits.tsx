@@ -10,7 +10,7 @@ export const Todolists = () => {
   if (isLoading) {
     return (
       <Box sx={filterButtonsContainerSx} style={{ gap: "32px" }}>
-        {Array(3)
+        {Array(5)
           .fill(null)
           .map((_, id) => (
             <TodolistSkeleton key={id} />
@@ -24,12 +24,13 @@ export const Todolists = () => {
       {todolists?.map((td) => {
         return (
           <Grid2 key={td.id}>
-            <Paper elevation={3} style={{ padding: "10px" }}>
+            <Paper elevation={8} style={{ padding: "10px", width: 300 }}>
               <TodolistItem todolist={td} />
             </Paper>
           </Grid2>
         );
       })}
+      {todolists?.length === 0 && "empty"}
     </>
   );
 };

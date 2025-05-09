@@ -2,9 +2,7 @@ import React from "react";
 import { EditableSpan } from "../../../../../../common/components/EditableSpan/EditableSpan";
 import { IconButton, Typography } from "@mui/material";
 import { Delete } from "@mui/icons-material";
-import { todolistsApi, useChangeTodolistTitleMutation, useDeleteTodolistMutation } from "src/features/todolists/api/todolistsApi";
-import { useAppDispatch } from "src/common/hooks";
-import { RequestStatus } from "src/common/types";
+import { useChangeTodolistTitleMutation, useDeleteTodolistMutation } from "src/features/todolists/api/todolistsApi";
 import { TodolistType } from "src/features/todolists/lib/types/types";
 
 type TodolistTitleProps = {
@@ -14,29 +12,11 @@ type TodolistTitleProps = {
 export const TodolistTitle = React.memo(({ todolist }: TodolistTitleProps) => {
   const { id, title, entityStatus } = todolist;
 
-  const dispatch = useAppDispatch();
-
   const [deleteTodolist] = useDeleteTodolistMutation();
   const [changeTodolistTitle] = useChangeTodolistTitleMutation();
 
-  const changeTodolistStatus = (entityStatus: RequestStatus) => {
-    dispatch(
-      todolistsApi.util.updateQueryData("getTodolists", undefined, (state) => {
-        const todolist = state.find((todolist) => todolist.id === id);
-        if (todolist) {
-          todolist.entityStatus = entityStatus;
-        }
-      }),
-    );
-  };
-
   const removeTodolist = () => {
-    changeTodolistStatus("loading");
-    deleteTodolist(id)
-      .unwrap()
-      .catch(() => {
-        changeTodolistStatus("idle");
-      });
+    deleteTodolist(id);
   };
 
   const onChangeTodolistTitle = (title: string) => {

@@ -43,7 +43,7 @@ export const TaskItem = React.memo(({ task, todolist }: TaskItemProps) => {
   return (
     <ListItem sx={getListItemSx(isTaskCompleted)}>
       <Box>
-        <Checkbox onChange={onChangeStatus} checked={isTaskCompleted} disabled={disabled} />
+        <Checkbox color="secondary" onChange={onChangeStatus} checked={isTaskCompleted} disabled={disabled} />
         <EditableSpan
           title={task.title}
           onchange={onChangeTitle}

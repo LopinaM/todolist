@@ -3,7 +3,7 @@ import { CircularProgress, CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "src/common/hooks";
 import { getTheme } from "src/common/theme";
-import { ErrorSnackbar, Header } from "src/common/components";
+import { ErrorSnackbar } from "src/common/components";
 import { selectThemeMode, setIsLoggedInAC } from "./app-clice";
 import { Routing } from "src/common/routing";
 import styles from "./App.module.css";
@@ -35,7 +35,6 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Header />
       <Routing />
       <ErrorSnackbar />
     </ThemeProvider>

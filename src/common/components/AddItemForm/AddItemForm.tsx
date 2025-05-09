@@ -5,9 +5,10 @@ import React from "react";
 type AddItemFormPropsType = {
   addItem: (title: string) => void;
   disabled?: boolean;
+  keyAddItem: "todolist" | "task";
 };
 
-export const AddItemForm = React.memo(({ addItem, disabled }: AddItemFormPropsType) => {
+export const AddItemForm = React.memo(({ addItem, disabled, keyAddItem }: AddItemFormPropsType) => {
   const [newTaskTitle, setNewTaskTitle] = React.useState("");
   const [error, setError] = React.useState<string | null>(null);
 
@@ -38,7 +39,7 @@ export const AddItemForm = React.memo(({ addItem, disabled }: AddItemFormPropsTy
       <TextField
         size="small"
         variant="outlined"
-        label="Type Value"
+        label={keyAddItem === "todolist" ? "Add to-do list" : "Add task"}
         value={newTaskTitle}
         onChange={onNewTaskTitleChange}
         onKeyDown={onKeyDown}

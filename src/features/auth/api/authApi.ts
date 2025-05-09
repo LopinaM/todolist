@@ -1,7 +1,7 @@
 import { DefaultResponse } from "src/common/types";
 import { Inputs } from "../lib/schemas";
 import { baseApi } from "src/app/baseApi";
-import { LoginResponse, MeResponse } from "../../../common/types/types";
+import { BaseTodoResponse, LoginResponse } from "../../../common/types/types";
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -18,7 +18,7 @@ export const authApi = baseApi.injectEndpoints({
         method: "DELETE",
       }),
     }),
-    me: build.query<MeResponse, void>({
+    me: build.query<BaseTodoResponse<{ id: number; email: string; login: string }>, void>({
       query: () => "auth/me",
     }),
   }),

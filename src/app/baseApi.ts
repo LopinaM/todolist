@@ -5,6 +5,9 @@ import { baseQueryWithZodValidation, handleError } from "src/common/utils";
 export const baseApi = createApi({
   reducerPath: "todolistsApi",
   tagTypes: ["Todolist", "Tasks"],
+  // keepUnusedDataFor: 5,
+  // refetchOnFocus: true,
+  // refetchOnReconnect: true,
   baseQuery: baseQueryWithZodValidation(async (args, api, extraOptions) => {
     const result = await fetchBaseQuery({
       baseUrl: process.env.REACT_APP_BASE_URL,

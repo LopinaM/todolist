@@ -5,13 +5,13 @@ import styles from "./TodolistSkeleton.module.css";
 import { filterButtonsContainerSx } from "../TodolistItem/FilterButtons/FilterButtons.styles";
 
 export const TodolistSkeleton = () => (
-  <Paper elevation={3} className={styles.container}>
+  <Paper elevation={8} className={styles.container}>
     <div className={styles.title}>
       <Skeleton width={150} height={50} />
       <Skeleton width={20} height={40} />
     </div>
     <div className={styles.createItemForm}>
-      <Skeleton width={230} height={60} />
+      <Skeleton width={200} height={60} />
       <Skeleton width={20} height={40} />
     </div>
     {Array(4)
