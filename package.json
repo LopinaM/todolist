@@ -1,7 +1,7 @@
 {
   "name": "todolist",
   "version": "0.1.0",
-  "homepage": "https://LopinaM.github.io/todolist",
+  "homepage": "https://lopinam.github.io/todolist",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.13.3",
