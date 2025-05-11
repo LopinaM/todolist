@@ -9,7 +9,7 @@ import { BrowserRouter } from "react-router";
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
   <Provider store={store}>
-    <BrowserRouter>
+    <BrowserRouter basename="/todolist">
       <App />
     </BrowserRouter>
   </Provider>,
